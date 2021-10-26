@@ -31,7 +31,7 @@ export class SuiviActiviteComponent implements OnInit {
     startTime: new FormControl(''),
     endtTime: new FormControl('')
    });
-
+  
 constructor (
   private httpClient: HttpClient,
   private fb: FormBuilder,
@@ -45,8 +45,6 @@ constructor (
       endTime: [''],
       tags:this.fb.array([])
     });
-
-  
     }  
     get libelle() { return this.addForm.get('libelle'); }
 
@@ -77,14 +75,24 @@ constructor (
       console.warn(this.addForm.value);
     }
 
-    /* fonction pour afficher le numéro de la semaine courante
 
     currentdate = new Date();
  oneJan = new Date(this.currentdate.getFullYear(),0,1);
- numberOfDays:number = Math.floor((this.currentdate - this.oneJan) / (24 * 60 * 60 * 1000));
- result = Math.ceil(( currentdate.getDay() + 1 + numberOfDays) / 7);
-console.log(`The week number of the current date (${currentdate}) is ${result}.`);
-*/
+ numberOfDays:number = Math.floor((this.currentdate.valueOf() - this.oneJan.valueOf()) / (24 * 60 * 60 * 1000));
+ result = Math.ceil(( this.currentdate.getDay() + 1 + this.numberOfDays) / 7);
+
+currentfrdate = this.currentdate.toLocaleDateString('fr-FR');
+
+endWeek = this.currentfrdate.valueOf(); // à revoir
+
+ public showWeek(){
+  console.log('la semaine est: ' + this.result);
+ 
+ }
+
+
+
+
 
 
 

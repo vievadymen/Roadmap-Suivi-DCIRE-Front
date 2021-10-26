@@ -1,7 +1,7 @@
 <div class="container  mt-3">
   <div class="row">
     <div class="card text-dark bg-light mb-3" >
-      <div class="card-header suivi-title"> <h1 style="text-align: center;"> ACTIVITÉS PHARES DE LA SEMAINE </h1></div>
+      <div class="card-header suivi-title"> <h1 style="text-align: center;"> ACTIVITÉS PHARES DE LA SEMAINE {{this.result}} </h1></div>
       </div>
       <div class="card">
         <div class="card-body">
@@ -16,7 +16,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Ajout activité(s)</h5>
+        <h3 class="modal-title" id="exampleModalLongTitle">Semaine {{this.result}} ---- Du {{this.currentfrdate}} au {{this.endWeek}}</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

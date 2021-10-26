@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: 'app-connexion',
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConnexionComponent implements OnInit {
 
-  constructor() { }
+  ConnexionUserData = {
+    username:'',
+    password:''
+  }
+  constructor(private _auth: AuthService,
+    private _router: Router) { }
 
   ngOnInit(): void {
   }
 
+  ConnexionUser(){
+    this._auth.connexionUser(this.ConnexionUserData)
+    .subscribe(
+      token => {
+        console.log(token)
+        localStorage.setItem('token', token.token)
+        this._router.navigate(['/admin'])
+      }
+    )
+  }
+  hide = true;
 }
