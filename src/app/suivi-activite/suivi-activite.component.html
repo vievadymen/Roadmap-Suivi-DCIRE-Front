@@ -1,0 +1,147 @@
+<div class="container  mt-3">
+  <div class="row">
+    <div class="card text-dark bg-light mb-3" >
+      <div class="card-header suivi-title"> <h1 style="text-align: center;"> ACTIVITÉS PHARES DE LA SEMAINE </h1></div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex flex-row align-items-center">
+            <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Ajouter</button></div>
+          </div>
+        </div>
+       
+      </div>
+     <!-- Modal -->
+<div class="modal fade modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Ajout activité(s)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+       <form action="" [formGroup]="addForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+          <div class="col-md-6"> 
+            <input type="text" class="form-control" formControlName="libelle" placeholder="libellé de l'activité" id="libelle" required>
+           <!-- <small *ngIf="libelle.errors?.required">Le libellé est obliagtoire</small> -->  
+          </div> 
+          <div class="col-md-4"> 
+            <input type="date" class="form-control" formControlName="date" placeholder="Date">
+          </div>
+          <div class="row mt-2">
+            <label for="">Tranche Horaire</label>
+            <div class="col-md-6">
+             <input class="form-control" formControlName="stratTime" type="time" min="08:00" max="18:00">
+            </div>
+            <div class="col-md-6">
+              <input class="form-control" formControlName="endTime" type="time" min="08:00" max="18:00">
+             </div>
+          </div>
+        </div>
+
+      <div formArrayName="tags">
+        <div class="form-group row mb-2" *ngFor="let tag of tags.controls; let i=index">
+          <div class="col-md-6"> 
+            <input type="text" class="form-control"  placeholder="{{'Activité' + i}}" [formControlName]="i">
+          </div>
+          <div class="col-md-4"> 
+            <input type="date" class="form-control" placeholder="Date" [formControlName]="i">
+          </div>
+          <button type="button" class="col-md-2 btn btn-outline-danger btn-sm" (click)="deleteTag(i)">Supprimer</button>
+          <div class="row mt-2">
+            <label for="">Tranche Horaire</label>
+            <div class="col-md-6">
+              <input class="form-control" formControlName="stratTime" type="time" min="08:00" max="18:00">
+             </div>
+             <div class="col-md-6">
+               <input class="form-control" formControlName="endTime" type="time" min="08:00" max="18:00">
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" class="col-md-2 mt-2 btn btn-outline-success btn-sm" (click)="addTags()">
+          Ajouter
+          <i class="fa fa-plus" ></i> 
+        </button>
+      </div>
+        
+        <div class="form-group">
+        </div>
+       </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid" >Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Modal -->
+      <table class="table table-hover bg-light">
+        <thead>
+          <tr>
+            <th scope="col">Structure</th>
+            <th scope="col">Activité</th>
+            <th scope="col">Date</th>
+            <th scope="col">Tranche horaire</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+
+            <td>Mark</td>
+            <td class="date">21 oct. 2021</td>
+            <td>
+              <a href="#!" class="text-success"  title="Edit todo"><i class="fas fa-pencil-alt me-3"></i></a>
+              <a href="#!" class="text-danger"  title="Delete todo"><i class="fas fa-trash-alt"></i></a>
+            </td>
+          </tr>
+          <tr>
+ 
+            <td>Jacob</td>
+            <td class="date">22 oct. 2021</td>
+            <td> <a href="#!" class="text-success"  title="Edit todo"><i class="fas fa-pencil-alt me-3"></i></a>
+              <a href="#!" class="text-danger"  title="Delete todo"><i class="fas fa-trash-alt"></i></a>
+            </td>
+          </tr>
+          <tr>
+
+            <td>Larry</td>
+            <td class="date">23 oct. 2021</td>
+            <td>
+              <a href="#!" class="text-success"  title="Edit todo"><i class="fas fa-pencil-alt me-3"></i></a>
+              <a href="#!" class="text-danger"  title="Delete todo"><i class="fas fa-trash-alt"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="card text-dark bg-light mb-3" >
+        <div class="card-header">DIFFICUTÉS,POINTS DE VIGILANCE ET DE COORDINATION</div>
+        <div class="card-body">
+          <h5 class="card-title">light card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-dark bg-light mb-3">
+        <div class="card-header">AGENDA DES EVENEMENT</div>
+        <div class="card-body">
+          <h5 class="card-title">light card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

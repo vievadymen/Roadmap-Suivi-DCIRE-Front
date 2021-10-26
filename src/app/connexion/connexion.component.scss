@@ -1,0 +1,38 @@
+.container{
+    margin-top: 10%;
+    background-color: rgba($color: #ffffff, $alpha: 0.9);
+    padding: 5%;
+    width: 50%;
+    box-shadow: 10px 10px 10px 10px rgba(25, 112, 22, 0.2);
+    border-radius: 5px;
+}
+form{
+    margin: 0 auto;
+    width: 60%;
+}
+.legende{
+    text-align: center;
+}
+.forgot{
+    float: right;
+}
+.submitbtn{
+    background-color: #F16E00;
+    border:none;
+    margin-top: 8%;
+    
+}
+.submitdiv{
+    text-align: center;
+}
+.form-control{
+    display: block;
+    width: 100%;
+    border-color: #F16E00 !important;
+    border-style: solid !important;
+}
+
+.logotitle a{
+    color: #F16E00;
+    font-style: bold;
+}

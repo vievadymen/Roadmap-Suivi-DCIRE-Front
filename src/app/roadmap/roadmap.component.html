@@ -1,0 +1,246 @@
+
+  
+<div class="row suivi-title">
+ 
+    <nav class="navbar title navbar-light bg-light">
+        <h1>SUIVI DES ROADMAP {{structureTitle}} </h1>
+    </nav>
+</div>
+  <div class="row">
+      <div class="col-md-2">
+         <div>
+            <button type="button" class="btn btn-dark new" data-toggle="modal" data-target="#exampleModalCenter">
+              <i class="fa fa-plus" ></i> Ajouter événement
+            </button>
+            </div>
+        
+         <!--sidebar-->
+    
+      <div class="bg-light sidebar">
+              <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+                   <li class="nav-item">
+                      <a href="" class="nav-link rex py-3 border-bottom" aria-current="page" title="REX" data-bs-toggle="tooltip" data-bs-placement="right" role="button" (click)="clickItem($event)">
+                          REX</a>
+                  </li>
+                   <li class="nav-item">
+                      <a href=""  class="nav-link corp py-3 border-bottom"  title="CORP" data-bs-toggle="tooltip" data-bs-placement="right">
+                          CORP</a>
+                  </li>
+                   <li class="nav-item">
+                      <a href=""  class="nav-link fs py-3 border-bottom"  title="FS" data-bs-toggle="tooltip" data-bs-placement="right">
+                          FS</a>
+                  </li>
+                   <li class="nav-item">
+                      <a href=""  class="nav-link py-3 rsep border-bottom"  title="RSEP" data-bs-toggle="tooltip" data-bs-placement="right">
+                          RSEP</a>
+                  </li>
+                   <li class="nav-item">
+                      <a href=""  class="nav-link py-3 odc border-bottom"  title="ODC" data-bs-toggle="tooltip" data-bs-placement="right">
+                          ODC</a>
+                  </li>
+                   <li class="nav-item">
+                      <a href=""  class="nav-link py-3 pp border-bottom"  title="PP" data-bs-toggle="tooltip" data-bs-placement="right">
+                          PP</a>
+              </ul>
+      </div>
+      </div>
+      <!--sidebar-->
+
+     <!--main content-->
+     <div class="col-md-10">
+
+      <div class="navbar navbar-light">
+        <div class="next-prev">
+          <a href="" class="prev">
+            <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 0 24 24" width="28px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/><path d="M16.62 2.99c-.49-.49-1.28-.49-1.77 0L6.54 11.3c-.39.39-.39 1.02 0 1.41l8.31 8.31c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.38 12l7.25-7.25c.48-.48.48-1.28-.01-1.76z"/></svg>
+            </a>
+            <a href="" class="next">
+            <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 0 24 24" width="28px" fill="#000000"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M7.38 21.01c.49.49 1.28.49 1.77 0l8.31-8.31c.39-.39.39-1.02 0-1.41L9.15 2.98c-.49-.49-1.28-.49-1.77 0s-.49 1.28 0 1.77L14.62 12l-7.25 7.25c-.48.48-.48 1.28.01 1.76z"/></svg>            
+          </a>       
+        </div>
+        <h1 class="mois">Octobre 2021</h1> 
+       
+       <div class="dropdown show ">
+            <a class="btn btn-warning periode dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Mensuel
+            </a>
+          
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" href="#">Trimestriel</a>
+              <a class="dropdown-item" href="#">Semestriel</a>
+              <a class="dropdown-item" href="#">Annuel</a>
+            </div>
+          </div>
+        
+      </div>
+       
+<!--roadmap-->
+        <table class="table table-bordered table-light">
+        <thead>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cellule">DIM 26</td>
+            <td class="cellule">LUN. 27</td>
+            <td class="cellule">MAR. 28
+                <div class="event" style="background-color: #000000;">Pilotage performance</div>
+            </td>
+            <td class="cellule">MER. 29</td>
+            <td class="cellule">JEU. 30</td>
+            <td class="cellule">VEND. 1 oct.</td>
+            <td class="cellule"> SAM. 2</td>
+          </tr>
+          <tr>
+            <td class="cellule">3
+                <a href="" data-toggle="modal" data-target="#infobullModal" >
+                    <div class="event " style="background-color: #A885D8;">Formation Marketing RSEP</div>
+                </a>
+            </td>
+            <td class="cellule">4
+                <a href="">
+                    <div class="event " style="background-color: #FFD200;">Soutenance apprenants</div>
+                </a>
+            </td>
+            <td class="cellule">5</td>
+            <td class="cellule">6
+                <a href="">
+                    <div class="event" style="background-color: #4BB4E6;">Sponsor Gamou</div> 
+                </a>  
+                <a href="">
+                    <div class="event" style="background-color: #FFD200;">Kids lab </div>
+                </a>            
+            </td>
+            <td class="cellule">7</td>
+            <td class="cellule">8</td>
+            <td class="cellule">9
+                <a href="">
+                    <div class="event" style="background-color: #000000;">Réunion DCIRE</div>
+                </a>
+            </td>
+          </tr>
+          <tr>
+            <td class="cellule">10</td>
+            <td class="cellule">11</td>
+            <td class="cellule">12</td>
+            <td class="cellule">13</td>
+            <td class="cellule">14</td>
+            <td class="cellule">15</td>
+            <td class="cellule">16</td>
+          </tr>
+          <tr>
+            <td class="cellule">17</td>
+            <td class="cellule">18</td>
+            <td class="cellule">19
+                <a href="">
+                    <div class="event" style="background-color: #4BB4E6;">Cérémonie remise de prix</div>
+                </a>
+            </td>
+            <td class="cellule">20</td>
+            <td class="cellule">21</td>
+            <td class="cellule">22</td>
+            <td class="cellule">23</td>
+          </tr>
+          <tr>
+            <td class="cellule">24</td>
+            <td class="cellule">25
+                <a href="">
+                    <div class="event" style="background-color: #4BB4E6;">Mécénat Pikine</div>
+                </a>
+            </td>
+            <td class="cellule">26</td>
+            <td class="cellule">27</td>
+            <td class="cellule">28
+                <a href="">
+                    <div class="event" style="background-color: #4BB4E6;">Dîner de Gala</div>
+                </a>
+            </td>
+            <td class="cellule">29</td>
+            <td class="cellule">30</td>
+          </tr>
+          <tr>
+            <td class="cellule">31</td>
+            <td class="cellule">1</td>
+            <td class="cellule">2</td>
+            <td class="cellule">3</td>
+            <td class="cellule">4</td>
+            <td class="cellule">5
+                <a href="">
+                    <div class="event" style="background-color: #FFB4E6;">Journée Porte ouverte</div>
+                </a>
+            </td>
+            <td class="cellule">6</td>
+          </tr>
+          
+        </tbody>
+      </table>
+<!--roadmap-->
+
+    </div>
+      </div>
+
+       <!--Modal new event-->
+       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+         <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Ajout Activité</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Libellé de l'activité</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                  </div>
+                  <div class="row">
+                      <div class="col form-group">
+                          <label for="recipient-name" class="col-form-label">L'activité démarre le</label>
+                          <input type="date" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="col form-group">
+                          <label for="recipient-name" class="col-form-label">Termine le</label>
+                          <input type="date" class="form-control" id="recipient-name">
+                        </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="comment" class="col-form-label">Difficultés majeures</label>
+                    <textarea class="form-control" id="comment"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="comment" class="col-form-label">Points de coordination</label>
+                    <textarea class="form-control" id="comment"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="comment" class="col-form-label">Commentaire</label>
+                    <textarea class="form-control" id="comment"></textarea>
+                  </div>
+                  <mat-form-field class="example-chip-list" appearance="fill">
+                      <mat-label>Autorités</mat-label>
+                      <mat-chip-list #chipList aria-label="Fruit selection">
+                        <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
+                                 [removable]="removable" (removed)="remove(fruit)">
+                          {{fruit.name}}
+                          <button matChipRemove *ngIf="removable">
+                             <mat-icon>cancel</mat-icon> 
+                          </button>
+                        </mat-chip>
+                        <input placeholder="Ajouter autorité..."
+                               [matChipInputFor]="chipList"
+                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                               [matChipInputAddOnBlur]="addOnBlur"
+                               (matChipInputTokenEnd)="add($event)">
+                      </mat-chip-list>
+                    </mat-form-field>
+                    
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            <button type="button" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+   Modal 
+    </div> 

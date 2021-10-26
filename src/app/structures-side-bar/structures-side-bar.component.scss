@@ -1,0 +1,26 @@
+.sidebar{
+    bottom: 0;
+left: 0;
+z-index: 1000;
+display: block;
+padding: 20px;
+overflow-x: hidden;
+overflow-y: auto;
+margin-top: 10px;
+}
+.nav-link{
+    color: black;
+    font-size: large;
+}
+.nav-link:hover{
+    color: #F16E00;
+    background-color: black;
+}
+a:active{
+    background-color: black;
+    color: #F16E00;
+}
+.active{
+    background-color: black;
+    color: #F16E00;
+}

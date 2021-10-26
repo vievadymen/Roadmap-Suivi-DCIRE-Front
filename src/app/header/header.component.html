@@ -1,0 +1,102 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand logotitle" href="#">
+    <img class="logo" src="assets/Orange_logo.svg.png" width="50" height="50" class="d-inline-block align-top" alt="">
+  </a>
+  <h2 class="mt-2">DCIRE </h2>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse  " id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto center-nav">
+    <!-- 
+<li class="nav-item active">
+        <a class="nav-link" href="#" >
+          <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+          Accueil <span class="sr-only">(current)</span></a>
+      </li>
+    -->  
+    <li class="nav-item ">
+      <a class="nav-link" href="#" routerLink="./home">
+        <div class="icon">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">home
+          </mat-icon>
+        </div>
+       <div>
+        Accueil 
+       </div>
+   </a>
+    </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="suivi" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="icon">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">calendar_view_day</mat-icon>
+          </div>
+          <div>
+            Suivi
+          </div>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="suivi">
+          <a class="dropdown-item" href="#"routerLink="./suivi-activite">Actvité</a>
+          <a class="dropdown-item" href="#" routerLink="./roadmap">Roadmap</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="roadmap" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="icon">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">calendar_view_week</mat-icon>
+          </div>
+          <div>
+            Extraction
+          </div>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="roadmap">
+          <a class="dropdown-item" href="#">Activité</a>
+          <a class="dropdown-item" href="#">Roadmap</a>
+        </div>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="#" routerLink="./notifications">
+          <div class="icon">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">notifications
+            </mat-icon>
+          </div>
+         <div>
+          Notifications 
+         </div>
+     </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link " routerLink="./settings" >
+          <div class="icon">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">settings</mat-icon>
+          </div>
+        <div>
+          Paramètres
+        </div>
+        </a>
+        <!-- 
+       <div class="dropdown-menu" aria-labelledby="roadmap">
+          <a class="dropdown-item" href="#">Profils</a>
+          <a class="dropdown-item" href="#">Workflows</a>
+          <a class="dropdown-item" href="#">Intérims</a>
+        </div>
+        -->
+       
+      </li>
+    </ul>
+    <ul navbar-nar mr-auto>
+      <li class="nav-item ">
+        <a class="nav-link logout" href="#" routerLink="/connexion">
+          <div class="icon">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">logout</mat-icon>
+          </div>
+         <div>
+          Déconnexion 
+         </div>
+     </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
