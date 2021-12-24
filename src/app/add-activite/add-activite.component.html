@@ -1,0 +1,119 @@
+<div class="container bg-light">
+    <div class="header">
+     <h1 class="text-center mt-1"> Ajout d'une activité </h1> 
+    </div>
+    <div class="row">
+        <form [formGroup]="addForm" >
+         
+            <div class="form-group row">
+                
+                <div class="col-md-6"> 
+                 <input type="text" class="form-control" formControlName="libelle" placeholder="libellé de l'activité" id="libelle" required>
+                <div *ngIf="submitted && f.libelle.errors" class="invalid-feedback">
+                  <div *ngIf="f.libelle.errors.required"> Veuillez saisir le libellé </div>
+              </div>          
+               </div> 
+              <div class="col-md-3"> 
+                <input type="date" class="form-control" formControlName="date" placeholder="Date" min="{{startDayWeek}}" max="{{endDayWeek}}">
+              </div> 
+            </div>
+      
+        <div formArrayName="tags" *ngFor="let tag of tags.controls; let i=index;" class="mt-2">
+            <div class="form-group row mb-2" [formGroupName]="i">
+               <h3 style="color: #F16E00;"> {{'Activité' + ' ' +(i+2)}} </h3> 
+              <div class="col-md-6"> 
+                <input type="text" class="form-control"  placeholder="libellé" formControlName = "libelle">
+              </div>
+              <div class="col-md-3"> 
+                <input type="date" class="form-control" placeholder="Date"  formControlName = "date">
+              </div>
+              <div class="col-md-3">
+                <button type="button" class="btn-danger btn-sm" (click)="deleteTag(i)"><i class="fas fa-trash-alt"></i></button>
+              </div>
+             
+            </div>
+          </div>
+
+          <div>
+            <button type="button" class="col-md-2 mt-2 btn btn-ajout-autre-activite btn-sm" (click)="addTags()">
+              Ajouter une autre activité
+              <i class="fa fa-plus"></i> 
+            </button>
+          </div>
+      
+          <mat-divider class="mt-3"> </mat-divider>
+         
+          <div class="row mt-3">
+         
+            <div class="col-md-6">
+              <div> <h4> DIFFICULTES, POINTS DE VIGILANCE ET DE COORDINATION  </h4>  </div>
+      
+              <form action="" [formGroup]="diffForm" (ngSubmit)="PostDifficulte()">
+              <div class="form-group ">
+                <input class="form-control" type="text" formControlName="description"> 
+              </div>
+                <div formArrayName="tagDiff" *ngFor="let tag of tagDiff.controls; let i=index; ">
+                  <div class="form-group row mb-2" [formGroupName]="i">
+                    <div class="col-md-10"> 
+                      <input type="text" class="form-control"  placeholder="" formControlName = "description">
+                    </div>
+                    <div class="col-md-2">
+                      <button type="button" class="btn-danger btn-sm" (click)="deleteTagDiff(i)"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <a  role="button" class="btn btn-success text-light" title="Ajouter difficulté" (click)="addTagDiff()"> <!--data-toggle="modal"  data-target="#deleteModal" role="button" (click)="passId(activite.id)"-->
+                  <i class="fas fa-plus"></i>
+                 </a>
+      
+              <!-- <textarea class="textarea" name="" id="" formControlName="description" ></textarea> -->
+              </form>
+            </div>
+            <div class="col-md-6">
+              <div> <h4> AGENDA DES EVENEMENTS </h4> </div>
+      
+            <form [formGroup]="eventForm"  (ngSubmit)="addEvent()">
+               <div class="form-group row">
+                 <label for="evénement" class="col-form-label" >Evénement</label>
+                 <div class="col-sm-8">
+                   <input type="text" class="form-control" id="inputEmail3" placeholder="Evénement" formControlName="thematique">
+                 </div>
+                 <div class="col-sm-4">
+                  <input type="date" class="form-control" id="inputPassword3" placeholder="Password" formControlName="start">
+                </div>
+               </div>
+      
+             <div formArrayName="tagEvent" *ngFor="let tag of tagEvent.controls; let i=index; ">
+                <div class="form-group row mb-2" [formGroupName]="i">
+                   <!-- <h3 style="color: #F16E00;"> {{'Evénement' + ' ' +(i+2)}} </h3>  -->
+                  <div class="col-md-7"> 
+                    <input type="text" class="form-control"  placeholder="{{'événement'+' '+(i+2)}}" formControlName ="thematique">
+                  </div>
+                  <div class="col-md-4"> 
+                    <input type="date" class="form-control" placeholder="Date"  formControlName = "start">
+                  </div>
+                  <div class="col-md-1">
+                    <button type="button" class="btn-danger btn-sm" (click)="deleteTagEvent(i)"><i class="fas fa-trash-alt"></i></button>
+                  </div>
+               </div>
+            </div>
+              <a  role="button" class="btn btn-success text-light" title="Ajouter événement" (click)="addTagEvent()"> <!--data-toggle="modal"  data-target="#deleteModal" role="button" (click)="passId(activite.id)"-->
+                <i class="fas fa-plus  ml-2"></i>
+               </a>
+            </form>
+               
+             </div>
+           
+          </div>
+      
+           <div class="form-group">
+            </div>
+      
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success"  (click)="AddActivite()" > Enregistrer </button>
+              <button type="button" class="btn btn-secondary" (click)="decline()"> Annuler </button>         
+            </div>
+           
+          </form>
+    </div>
+</div>

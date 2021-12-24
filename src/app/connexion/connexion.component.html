@@ -12,31 +12,34 @@
 
 
 <div class="container" >
-<form class="m-auto">
+<form class="m-auto" [formGroup]="form" (ngSubmit)="login()"> 
   <fieldset>
     <legend class="legende"> <h1> Connexion </h1>  </legend>
       <div class="mb-3">
         <label for="" class="form-label">Nom d'utilisateur</label>
-        <input type="text" class="form-control" id="username" aria-describedby="emailHelp">
-       <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+        <input type="text" class="form-control" id="username" aria-describedby="emailHelp" formControlName="username" [ngClass]="{'is-invalid': submitted && f.username.errors }">
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+          <div *ngIf="f.username.errors.required"> Veuillez saisir un nom d'utilisateur</div>
       </div>
+    </div>
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password"  [ngClass]="{'is-invalid': submitted && f.password.errors }">
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required"> Veuillez saisir un mot de passe</div>
       </div>
-       <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Se souvenir de moi</label> 
-      </div> 
+      </div>
       <div class="submitdiv">
-        <button type="submit" class="btn btn-primary btn-lg submitbtn" routerLink="/home">Se connecter</button>
+        <button type="submit" class="btn btn-primary btn-lg submitbtn">Se connecter</button>
       </div>
-     
     
   </fieldset>
    
   </form>
 
+  
+  
+  
 </div>
 <!--
 <div class="footer">

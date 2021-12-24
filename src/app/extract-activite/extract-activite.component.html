@@ -1,0 +1,104 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <button class="btn extract-btn mt-2" (click)="exportexcel()">Extraire</button>
+        </div>
+    </div>
+    <table class="table table-hover table-bordered bg-light mt-3" id="activite-table">
+        <thead class="text-center thead">
+          <tr>
+            <th scope="col"> <h3> <strong>Libelle</strong> </h3></th>
+            <th scope="col"><h3> <strong>Date</strong> </h3></th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+            <div class="row text-center" *ngIf="!activites || activites.length === 0">
+                <h2>
+                    ACTIVITES PHARES DE LA SEMAINE
+                </h2>
+                <h3 style="color:#F16E00; ">Aucune activité à extraire</h3>
+            </div>
+            <tr  *ngFor= "let activite of activites ">
+                <td>
+                    {{activite.libelle}}
+                </td>
+                <td>
+                    {{activite.date |date}}
+                </td>
+            </tr>
+            <tr> </tr>
+            
+                <td>
+                    <tr>
+                        <h2>
+                            DIFFICULTES ET POINTS DE COORDINNATION
+                        </h2>
+                    </tr>
+                    <tr *ngFor= "let difficulte of difficultes">
+                        <td>
+                            {{difficulte.description}}
+                        </td>
+                    </tr>
+                </td>
+
+                <td>
+                    <tr>
+                        <h2>
+                            AGENDA DES ÉVÉNEMENTS
+                        </h2>
+                    </tr>
+                    <tr *ngFor= "let event of evenements">
+                        <td>
+                            {{event.thematique}}
+                        </td>
+                        <td>
+                            {{event.start}}
+                        </td>
+                    </tr>
+                </td>
+               
+            
+
+            <tr></tr>
+
+
+        </tbody>
+    </table>
+
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover table-bordered bg-light mt-3" id="difficulte-table">
+                <thead>
+                    <tr>
+                        <th><h3><strong>Description</strong></h3></th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr *ngFor= "let difficulte of difficultes">
+                        <td>
+                            {{difficulte.description}}
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <table class="table table-hover table-bordered bg-light mt-3" id="evenement-table">
+                <thead>
+                    <tr>
+                        <th><h3><strong>Libellé</strong></h3></th>
+                        <th><h3><strong>Date</strong></h3></th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+    
+</div>

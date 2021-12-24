@@ -1,0 +1,48 @@
+
+      <!--Modal Suppression user-->
+
+      <ng-template #template>
+        <button type="button" class="close"  (click)="decline()" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-body text-center">
+          <p>Voulez-vous supprimer cet utilisateur?</p>
+          <button type="button" class="btn btn-primary" (click)="decline()" >Non</button>
+          <button type="button" class="btn btn-default" (click)="deleteUser()" >Oui</button>
+        </div>
+      </ng-template>
+      
+      <!--Modal Suppression user-->
+<div class="" id="listeProfils">
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">Matricule</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">email</th>
+          <th scope="col">Structure</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users  | paginate: { itemsPerPage: 7, currentPage: p, totalItems: totalLength }">
+            <td>{{user.matricule}}</td>
+            <td>{{user.nom}}</td>
+            <td>{{user.prenom}}</td>
+            <td>{{user.email}}</td> 
+            <td>{{user.service}}</td>
+          <td>
+            <a  data-mdb-toggle="tooltip" title="modifier"><i class="fas fa-edit fa-lg text-success me-3"></i></a>
+          <a data-mdb-toggle="tooltip" title="supprimer"  (click)="openModal(template,user.id)"><i class="fas fa-trash-alt fa-lg text-danger"></i></a>
+          <a class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
+          </a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot class="text-center"  >
+        <pagination-controls class="activites-pagination" (pageChange)="p = $event"></pagination-controls>
+      </tfoot>
+    </table>
+  </div>

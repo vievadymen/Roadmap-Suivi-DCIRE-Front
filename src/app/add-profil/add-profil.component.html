@@ -1,0 +1,46 @@
+<div class="container" id="multiCollapseExample2">
+            
+           
+    <h4 class="mt-4" style="color:#F16E00">Ajout d'un utilisateur</h4>
+    <hr>
+    <form [formGroup]="AddUserForm" (ngSubmit)="addUser()">
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" class="form-control" formControlName="nom"  placeholder="Saisissez un nom" value="" [ngClass]="{ 'is-invalid': submitted && f.nom.errors }" >
+        <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+          <div *ngIf="f.nom.errors.required">le nom est requis</div>
+      </div>
+      </div>
+      <div class="form-group">
+        <label>Prénom</label>
+        <input type="text" class="form-control" formControlName="prenom"  placeholder="Saisissez un prénom" value=""  [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }">
+        <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+          <div *ngIf="f.prenom.errors.required">le nom est requis</div>
+      </div>
+      </div>
+      <div class="form-group">
+        <label>Matricule</label>
+        <input type="text" class="form-control" formControlName="matricule"  placeholder="Saisissez un matricule" value=""  [ngClass]="{ 'is-invalid': submitted && f.matricule.errors }">
+        <div *ngIf="submitted && f.matricule.errors" class="invalid-feedback">
+          <div *ngIf="f.matricule.errors.required">le nom est requis</div>
+      </div>
+      </div>
+      <div class="form-group">
+        <label>email</label>
+        <input type="email" class="form-control" formControlName="email"  placeholder="Saisissez un email" value=""  [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.required">l'adresse email est requise</div>
+          <div *ngIf="f.email.errors.email">Veuillez renseigner une adresse email valide</div>
+      </div>
+      </div>
+      <div class="form-group">
+        <label>Département</label>
+        <input type="text" class="form-control" formControlName="departement"  placeholder="Saisissez une structure" value=""  [ngClass]="{ 'is-invalid': submitted && f.departement.errors }">
+        <div *ngIf="submitted && f.departement.errors" class="invalid-feedback">
+          <div *ngIf="f.departement.errors.required">le nom  de la structure est requis</div>
+      </div>
+      </div>
+       <button type="submit" class="btn btn-primary" >Enregistrer</button> 
+       <button type="reset" class="btn btn-light">Annuler</button>
+    </form>
+  </div>

@@ -1,10 +1,17 @@
+import { TokenInterceptorService } from './services/token-interceptor.service';
+import { TokenStorageService } from './services/token-storage.service';
+import { EvenementService } from './services/evenement.service';
+import { UserService } from './services/user.service';
+import { AuthGuard } from './_guards/auth.guard';
+import { AuthService } from './services/auth.service';
 
-import { AuthService } from '../services/auth.service';
+
+//import { AuthService } from '../services/auth.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
-
+import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -12,10 +19,7 @@ import { ConnexionComponent } from './connexion/connexion.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { SuiviActiviteComponent } from './suivi-activite/suivi-activite.component';
-import { ActiviteREXComponent } from './activite-rex/activite-rex.component';
 import { FullCalendarModule } from '@fullcalendar/angular'; 
-import interactionPlugin from '@fullcalendar/interaction';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { FormSuiviActiviteComponent } from './form-suivi-activite/form-suivi-activite.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,6 +37,26 @@ import { ProfilsSettingsComponent } from './profils-settings/profils-settings.co
 import { SettingsComponent } from './settings/settings.component';
 import { NotificationComponent } from './notification/notification.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EditUserComponent } from './user/admin/edit-user/edit-user/edit-user.component';
+import { ListUserComponent } from './user/admin/list-user/list-user/list-user.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { SuiviComponent } from './suivi/suivi.component';
+import { DetailsActiviteComponent } from './details-activite/details-activite.component';
+import { HomeUserComponent } from './home-user/home-user.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/moment';
+import * as moment from 'moment';
+import { ExtractActiviteComponent } from './extract-activite/extract-activite.component';
+import { ExtractRoadmapComponent } from './extract-roadmap/extract-roadmap.component';
+import { AddActiviteComponent } from './add-activite/add-activite.component';
+import { ListActiviteComponent } from './list-activite/list-activite.component';
+import { AddProfilComponent } from './add-profil/add-profil.component';
+import { ListUsersComponent } from './list-users/list-users.component';
+
+export function momentAdapterFactory() {
+  return adapterFactory(moment);
+};
 
 
 
@@ -41,22 +65,19 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 
-FullCalendarModule.registerPlugins([ 
-  interactionPlugin,
-  dayGridPlugin
-]);
-
+export function tokenGetter() {
+  return localStorage.getItem("access_token");
+}
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
+   // HeaderComponent,
     ConnexionComponent,
     HomeComponent,
     FooterComponent,
     SuiviActiviteComponent,
-    ActiviteREXComponent,
     FormSuiviActiviteComponent,
     RoadmapComponent,
     ParametresComponent,
@@ -65,6 +86,18 @@ FullCalendarModule.registerPlugins([
     SettingsComponent,
     NotificationComponent,
     DashboardComponent,
+    EditUserComponent,
+    ListUserComponent,
+    HeaderComponent,
+    SuiviComponent,
+    DetailsActiviteComponent,
+    HomeUserComponent,
+    ExtractActiviteComponent,
+    ExtractRoadmapComponent,
+    AddActiviteComponent,
+    ListActiviteComponent,
+    AddProfilComponent,
+    ListUsersComponent,
     
   ],
   imports: [
@@ -78,15 +111,30 @@ FullCalendarModule.registerPlugins([
     MatInputModule,
     MatChipsModule,
     MatIconModule,
+    MatDividerModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,
     MatDividerModule,
-    ReactiveFormsModule
-  
-
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    ModalModule.forRoot(),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["http://127.0.0.1:8000"],
+        disallowedRoutes: [""],
+      },
+    }),
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: momentAdapterFactory }),
   ],
-  providers: [AuthService],
+
+  providers: [AuthService, AuthGuard, UserService, EvenementService, TokenStorageService,BsModalRef,
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi:true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
