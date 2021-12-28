@@ -28,7 +28,7 @@ export class TokenStorageService {
   }
 
   public saveUser(user:any) {
-    window.localStorage.removeItem(USER_KEY);
+    //,window.localStorage.removeItem(USER_KEY);
     window.localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 

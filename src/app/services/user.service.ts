@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -9,7 +11,7 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   private getUrl = "http://127.0.0.1:8000"
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private _auth:AuthService,private _router:Router) { }
 
   postUsers(user:any){
     return this.http.post<any>(this.getUrl +'/user', user)
@@ -33,5 +35,6 @@ export class UserService {
   blockUser(id:number){
 
   }
+
 }
 

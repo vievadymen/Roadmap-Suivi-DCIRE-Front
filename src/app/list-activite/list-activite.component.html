@@ -145,7 +145,7 @@
       <tr *ngFor= "let activite of activites | paginate: { itemsPerPage: 4, currentPage: p, totalItems: totalLength }" data-toggle="modal"  >
         <td>{{activite.libelle}}
         </td>
-        <td class="date">{{activite.date | date }}</td>
+        <td class="date">{{activite.date | date  }}</td>
         <td> 
        
           <!-- <a class="text-success"  title="Détails activité"  role="button" data-toggle="modal"  data-target="#detailsModal" (click)="passId(activite.id)"> 

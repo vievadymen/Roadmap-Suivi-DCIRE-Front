@@ -59,7 +59,7 @@ ul{
   overflow: hidden;
 }
 mat-icon:hover{
-  color: #F16E00;
+  color: #f7a25d;
 }
 .center-nav{
  margin: 0 20%;
@@ -67,4 +67,8 @@ padding: 0;
 }
 .logout{
   color: #f9f9f9;
+}
+.active-link{
+  background-color: #F16E00;
+
 }

@@ -24,7 +24,7 @@
                     {{activite.libelle}}
                 </td>
                 <td>
-                    {{activite.date |date}}
+                    {{activite.date |date }}
                 </td>
             </tr>
             <tr> </tr>
@@ -32,7 +32,7 @@
                 <td>
                     <tr>
                         <h2>
-                            DIFFICULTES ET POINTS DE COORDINNATION
+                            DIFFICULTES ET POINTS DE COORDINATION
                         </h2>
                     </tr>
                     <tr *ngFor= "let difficulte of difficultes">
@@ -53,7 +53,7 @@
                             {{event.thematique}}
                         </td>
                         <td>
-                            {{event.start}}
+                            {{event.start |date}}
                         </td>
                     </tr>
                 </td>
@@ -65,7 +65,7 @@
 
         </tbody>
     </table>
-
+<!-- 
 
     <div class="row">
         <div class="col">
@@ -99,6 +99,6 @@
 
             </table>
         </div>
-    </div>
+    </div> -->
     
 </div>

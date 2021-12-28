@@ -24,9 +24,9 @@ registerLocaleData(localeFr);
 
 const routes: Routes = [
   { path: 'connexion', component: ConnexionComponent },
-  {path: 'accueil-user', component: HomeUserComponent,canActivate: [AuthGuard], data: {roles: [Role.Admin]}},
   {path: 'suivi', component: SuiviComponent,  canActivate: [AuthGuard],
     children: [
+      {path: 'accueil-user', component: HomeUserComponent,canActivate: [AuthGuard], data: {roles: [Role.Admin]}},
       {
         path: 'accueil', component: DashboardComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]},
       },

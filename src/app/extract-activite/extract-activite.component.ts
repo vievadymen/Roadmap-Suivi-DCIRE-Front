@@ -40,7 +40,7 @@ export class ExtractActiviteComponent implements OnInit {
   getAllActivite(){
     this._activite.getActivite().subscribe(data=>{
       console.warn(data)
-      this.activites = data
+      this.activites = data.reverse()
       this.totalLength = data.length 
     });
   

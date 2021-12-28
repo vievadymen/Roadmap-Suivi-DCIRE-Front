@@ -232,6 +232,8 @@ myEvents(){
       (error) =>{
         console.log(error);
       } );
+      this.addEventForm.reset()
+      this.confirm();
     
     // this.events = [
     //   ...this.events,
@@ -252,6 +254,11 @@ myEvents(){
     //   },
     // ];
   }
+
+  confirm(): void {
+    this.modalRef?.hide();
+  }
+ 
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);

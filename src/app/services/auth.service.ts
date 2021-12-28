@@ -5,7 +5,6 @@ import { HttpClient } from "@angular/common/http";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { BehaviorSubject,Observable } from "rxjs";
 import { map } from 'rxjs/operators';
-import { Role } from '../models/role';
 import jwt_decode from 'jwt-decode';
 
 
@@ -24,9 +23,8 @@ export class AuthService {
 
   public loggedUser:string ="";
   public isloggedIn: Boolean = false;
-  public roles:string[]=[];
+  public roles:any;
 
-  
 
   constructor(private http:HttpClient, public jwtHelper: JwtHelperService, private router: Router) { 
 
@@ -41,40 +39,36 @@ export class AuthService {
     return this.userSubject.value;
   }
 
-  login(username: string, password: string) {
-    return this.http.post<any>(this._connexionUrl, {username,password})
+  login(user:any) {
+    return this.http.post<any>(this._connexionUrl, user)
       .pipe(
         map(user => {
           // login successful if there's a jwt token in the response
           if (user && user.token) {
-              
               // store user details and jwt token in local storage to keep user logged in between page refreshes
               localStorage.setItem('currentUser', JSON.stringify(user));
-              this.InfosSave(user.token);
+             // this.InfosSave(user.token);
               this.userSubject.next(user);
           } 
 
           return user;
       }));
-      //   map(() => {
-      //     let user: User = {
-      //       username: username,
-      //       passwword: password,
-      //     };
-      //     localStorage.setItem('currentUser', JSON.stringify(user));
-      //     this.userSubject.next(user);
-      //     return user;
-      //   })
-      // );
+    }
+
+ 
+
+    isAdmin():Boolean{
+      if (!this.roles) //this.roles== undefiened
+         return false;
+      return (this.roles.indexOf('ROLE_PP') >-1);
     }
 
    InfosSave(token: any){
-    let from : any= jwt_decode(token);
+    let from :any = jwt_decode(token);
      localStorage.set({key: 'token', value: token});
     //await localStorage.set({key: 'id', value: from['id']});
      localStorage.set({key: 'role', value: from['roles']});
      localStorage.set({key: 'username', value: from['usernane']});     
-
  }
 
   connexionUser(user:any){
@@ -84,6 +78,7 @@ export class AuthService {
   getToken(){
     return localStorage.getItem('token')
   }
+
 
   logout(){
     localStorage.removeItem('token');

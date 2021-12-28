@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx'; 
+import { EvenementService } from '../services/evenement.service';
 
 @Component({
   selector: 'app-extract-roadmap',
@@ -8,20 +9,30 @@ import * as XLSX from 'xlsx';
 })
 export class ExtractRoadmapComponent implements OnInit {
 
-  public activites:any;
+  public events:any;
   public totalLength :any;
 
-  constructor() { }
+  constructor(private evenement:EvenementService) { }
 
   ngOnInit(): void {
+    this.showEvent();
   }
+
+  public  showEvent(){
+    this.evenement.getEvenenement().subscribe(
+      data=>{
+        console.warn(data);
+        this.events = data.reverse();
+      });
+  }
+
 
   event= 'ExcelSheet.xlsx';  
   
   exportexcel(): void 
 {
    /* table id is passed over here */   
-   let element = document.getElementById('activite-table'); 
+   let element = document.getElementById('roadmap-table'); 
    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
 
    /* generate workbook and add the worksheet */

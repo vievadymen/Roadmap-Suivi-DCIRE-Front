@@ -9,6 +9,7 @@ import { EvenementService } from '../services/evenement.service';
 
 
 
+
 export interface Activites {
   id: number;
   libelle: String;
@@ -157,7 +158,7 @@ export class ListActiviteComponent implements OnInit {
   getAllActivite(){
     this._activite.getActivite().subscribe(data=>{
       console.warn(data)
-      this.activites = data
+      this.activites = data.reverse()
       this.totalLength =data.length 
     });
   
