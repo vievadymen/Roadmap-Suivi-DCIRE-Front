@@ -215,9 +215,11 @@ constructor (  private httpClient: HttpClient,
            tagDiff:this.fb.array([])
           });
        
-          this.startDayWeek = moment().weekday(0);
-          this.endDayWeek  = moment().weekday(+6);
+          this.startDayWeek =moment().startOf('week');
+          this.endDayWeek  = moment().endOf('week');
           this.weekNumber = moment().week();
+
+         
   }  
     
     openModal(template: TemplateRef<any>, id:any) {
@@ -737,7 +739,6 @@ public refreshPage(){
   }
 
   public previous(){
-    
     let num = this.weekNumber -1
     console.log(num);
     

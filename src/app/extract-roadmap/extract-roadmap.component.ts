@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx'; 
 import { EvenementService } from '../services/evenement.service';
+import { StructureService } from '../services/structure.service';
 
 @Component({
   selector: 'app-extract-roadmap',
@@ -10,13 +11,18 @@ import { EvenementService } from '../services/evenement.service';
 export class ExtractRoadmapComponent implements OnInit {
 
   public events:any;
+  public structures : any;
   public totalLength :any;
+  public struc:any;
+  public idEvent:any;
 
-  constructor(private evenement:EvenementService) { }
+  constructor(private evenement:EvenementService, private structure:StructureService) { }
 
   ngOnInit(): void {
     this.showEvent();
+    this.getStructure();
   }
+
 
   public  showEvent(){
     this.evenement.getEvenenement().subscribe(
@@ -24,6 +30,48 @@ export class ExtractRoadmapComponent implements OnInit {
         console.warn(data);
         this.events = data.reverse();
       });
+  }
+
+  //ajouté récemment
+  myEventsByStructure(id:any){
+    this.evenement.getEvenementByStructure(id).subscribe(
+      data=>{
+        console.warn(data);
+        this.events = data.evenement;
+
+      }
+    )
+  }
+
+  //ajouté recemment
+  public passId(id:any){
+    this.idEvent = id;
+    console.log(id);       
+ }
+
+//ajouté recemment pour voir si j'ai l'id de la structure
+ public getSelectedStructure(id:any):void{
+      
+  this.structure.getStructureById(id).subscribe(
+    (event) => {
+      console.log(event.id);  
+      this.myEventsByStructure(id);
+      // if (!event.id) {
+      //   this.structures= event
+        
+      // }    
+    }
+  )
+}
+
+
+  getStructure(){
+    this.structure.getStructure().subscribe(
+      data=>{
+        console.log(data);
+        this.structures = data;
+      }
+    )
   }
 
 

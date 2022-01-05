@@ -1,15 +1,21 @@
 <div class="sidebar">
-    <a class="active font-weight-bold" href="#home">GLOBALE</a>
-    <a class="font-weight-bold" href="#news">REX</a>
-    <a class="font-weight-bold" href="#contact">RSEP</a>
-    <a class="font-weight-bold" href="#about">ODC</a>
-    <a class="font-weight-bold" href="#about">PP</a>
-    <a class="font-weight-bold" href="#about">FS</a>
+    <ul>
+        <li>
+            <a class="active font-weight-bold" routerLink="">GLOBALE</a>
+        </li>
+        <li *ngFor="let structure of structures">
+            <a class="font-weight-bold" (click)="getSelectedStructure(structure.id)">{{structure.libelle}}</a>
+        </li>
+    </ul>
   </div>
   
 
 
 <div class="container mr-1">
+
+    <div class="row bg-light text-center">
+        <h1>EXTRACTION ROADMAP DCIRE</h1>
+    </div>
   
     <div class="row">
         <div class="col">
@@ -57,7 +63,7 @@
                     {{event.thematique}}
                 </td>
                 <td>
-                    {{event.start | date}}
+                    {{event.start | date }}
                 </td>
                 <td>
                     {{event.end | date}}

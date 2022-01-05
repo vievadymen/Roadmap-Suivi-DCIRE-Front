@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { tokenGetter } from '../app.module';
-import {ConnexionComponent} from '../connexion/connexion.component'
 import { AuthService } from '../services/auth.service';
 import { TokenStorageService } from '../services/token-storage.service';
 
@@ -23,10 +21,10 @@ export class HeaderComponent implements OnInit {
    public currentUser:any
 
    getUser(){
-    let user = JSON.parse(localStorage.getItem('currentUser') || '{}')
+    let user = localStorage.getItem('nom')
    
-    this.currentUser = user.data.username
-     console.log(user.data.username);
+    this.currentUser = user
+     console.log(user);
    }
 //public userc= this.auth.InfosSave(this.token)
 

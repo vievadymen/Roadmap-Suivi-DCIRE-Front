@@ -136,16 +136,16 @@
       </tr>
     </thead>
     <tbody>
-      <!-- <div class="row text-center" *ngIf="!activites || activites.length === 0" >
+       <div class="row text-center" *ngIf="!activites || activites.length === 0" >
           <h2>
               ACTIVITES PHARES DE LA SEMAINE
           </h2>
           <h3 style="color:#F16E00; ">Aucune activité enregistrée</h3>
-      </div> -->
+      </div> 
       <tr *ngFor= "let activite of activites | paginate: { itemsPerPage: 4, currentPage: p, totalItems: totalLength }" data-toggle="modal"  >
         <td>{{activite.libelle}}
         </td>
-        <td class="date">{{activite.date | date  }}</td>
+        <td class="date" >{{activite.date | date  }}</td>
         <td> 
        
           <!-- <a class="text-success"  title="Détails activité"  role="button" data-toggle="modal"  data-target="#detailsModal" (click)="passId(activite.id)"> 

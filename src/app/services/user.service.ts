@@ -10,14 +10,14 @@ import { Router } from '@angular/router';
 })
 export class UserService {
 
-  private getUrl = "http://127.0.0.1:8000"
+  private getUrl = "http://127.0.0.1:8000/api"
   constructor(private http:HttpClient, private _auth:AuthService,private _router:Router) { }
 
   postUsers(user:any){
-    return this.http.post<any>(this.getUrl +'/user', user)
+    return this.http.post<any>(this.getUrl +'/users', user)
   }
 
-  users = this.http.get<any>(this.getUrl +'/user')
+  users = this.http.get<any>(this.getUrl +'/users')
 
 
   getUsers(){

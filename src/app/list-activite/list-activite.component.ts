@@ -6,6 +6,8 @@ import { FormControl } from "@angular/forms";
 import { Time, getLocaleDateTimeFormat } from '@angular/common';
 import { DifficulteService } from '../services/difficulte.service';
 import { EvenementService } from '../services/evenement.service';
+import * as moment from 'moment';
+import 'moment/locale/fr';
 
 
 
@@ -20,7 +22,6 @@ export interface Activites {
 export interface Difficulte {
   id: number;
   description: String;
- 
 }
 
 
@@ -43,6 +44,8 @@ export class ListActiviteComponent implements OnInit {
   public events:any;
   public valeurtagDiff :[]=[];
   public idEvent:any;
+  public startOfWeek:any;
+  public endOfWeek:any;
   message?: string;
   modalRef?: BsModalRef;
   public eventItem:any;
@@ -77,7 +80,12 @@ export class ListActiviteComponent implements OnInit {
     private difficulte:DifficulteService,private fb: FormBuilder,
     private evenement:EvenementService, ) { }
 
+
   ngOnInit(): void {
+    this.startOfWeek = moment().startOf('week');
+
+    this.endOfWeek = moment().endOf('week');
+
 
     this.editDiffForm = this.fb.group({
       description: (''),
@@ -101,7 +109,7 @@ export class ListActiviteComponent implements OnInit {
       description:(''),
       tagDiff:this.fb.array([])
      });
-  
+ 
      this.getAllActivite();
      this.showDifficulte();
      this.showEvent();
@@ -155,14 +163,33 @@ export class ListActiviteComponent implements OnInit {
     this.modalRef?.hide();
   }
 
-  getAllActivite(){
+ public getAllActivite(){
     this._activite.getActivite().subscribe(data=>{
       console.warn(data)
       this.activites = data.reverse()
-      this.totalLength =data.length 
+      this.totalLength = data.length 
     });
   
   }
+
+  public showDifficulte(){
+    this.difficulte.getDifficulte().subscribe(
+      data =>{
+        console.warn(data);     
+        this.diff =data.reverse();
+      }
+    )
+  }
+
+
+  public  showEvent(){
+    this.evenement.getEvenenement().subscribe(
+      data=>{
+        console.warn(data);
+        this.events= data.reverse();
+      });
+  }
+
   
   public passId(id:any){
     this.idActivite = id;
@@ -353,21 +380,6 @@ public updateActivite(){
             this.showEvent();
           }
 
-          public showDifficulte(){
-            this.difficulte.getDifficulte().subscribe(
-              data =>{
-                console.warn(data);     
-                this.diff =data;
-              }
-            )
-          }
 
-            public  showEvent(){
-              this.evenement.getEvenenement().subscribe(
-                data=>{
-                  console.warn(data);
-                  this.events= data;
-                });
-            }
 
 }

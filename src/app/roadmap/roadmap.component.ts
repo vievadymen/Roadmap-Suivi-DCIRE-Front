@@ -173,7 +173,6 @@ myEvents(){
    }
 
 
-
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (

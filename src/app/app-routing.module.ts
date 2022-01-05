@@ -1,3 +1,6 @@
+import { FullCalendarModule } from '@fullcalendar/angular'; // must go before plugins
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin!
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotificationComponent } from './notification/notification.component';
 import { RoadmapComponent } from './roadmap/roadmap.component';
@@ -18,12 +21,15 @@ import { ListUsersComponent } from './list-users/list-users.component';
 import { AddProfilComponent } from './add-profil/add-profil.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { BrowserModule } from '@angular/platform-browser';
+
+
 registerLocaleData(localeFr);
 
 
 
 const routes: Routes = [
-  { path: 'connexion', component: ConnexionComponent },
+  {path: 'connexion', component: ConnexionComponent },
   {path: 'suivi', component: SuiviComponent,  canActivate: [AuthGuard],
     children: [
       {path: 'accueil-user', component: HomeUserComponent,canActivate: [AuthGuard], data: {roles: [Role.Admin]}},
@@ -54,17 +60,27 @@ const routes: Routes = [
          {path: 'extract-roadmap', component:ExtractRoadmapComponent },
 
       { path: '', redirectTo: 'accueil', pathMatch: 'full' },
+      {
+        path: 'notifications', component:NotificationComponent
+      },
     ]
     },
   {
     path: 'settings', component: SettingsComponent,
   },
-  {path: 'notifications', component:NotificationComponent},
   { path: '', redirectTo: 'connexion', pathMatch: 'full' },
 ];
 
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin
+]);
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),
+            BrowserModule,
+            FullCalendarModule // register FullCalendar with you app
+  ],
   exports: [RouterModule],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR'},

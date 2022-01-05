@@ -80,26 +80,22 @@ seConnecter() {
   console.log(this.form.value);
   this._auth.login(this.form.value).subscribe(
     (data :any)=>
-    {
+    {  
       const helper = new JwtHelperService();
       const decode =  helper.decodeToken(data['token']);
       const role = decode.roles[0];
       console.log(data)
       localStorage.setItem('token', data.token);
+      localStorage.setItem('nom', decode.nom)
+      localStorage.setItem('structure', decode.structure);
       if(role=== 'ROLE_PP'){
         this._router.navigate(['/suivi'])
       }
       else{
         this._router.navigate(['/suivi/accueil-user'])
-
       }
-     //
     }
   );
-
-let monuser =this.tokenStorage.getUser()
-console.log(monuser);
-
     }
   
 

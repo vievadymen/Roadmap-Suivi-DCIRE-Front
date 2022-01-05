@@ -11,7 +11,7 @@ import { Difficulte } from '../models/difficulte';
 export class DifficulteService {
 
 
-  private getUrl = "http://127.0.0.1:8000"
+  private getUrl = "http://127.0.0.1:8000/api"
 
   constructor(private http:HttpClient) { }
 

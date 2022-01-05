@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class EvenementService {
 
-  private getUrl = "http://127.0.0.1:8000"
+  private getUrl = "http://127.0.0.1:8000/api"
 
   constructor(private http:HttpClient) { }
 
@@ -25,8 +25,11 @@ export class EvenementService {
 
 getEventById(id:number):Observable<any>{
   return this.http.get<any>(this.getUrl + '/evenement/'+`${id}`) 
-
 }
+
+  getEvenementByStructure(id:number): Observable<any>{
+    return this.http.get<any>(this.getUrl + '/structure/'+`${id}`) 
+  }
 
   postEvenement(event:any){
     return this.http.post<any>(this.getUrl +'/evenement', event)
@@ -39,5 +42,7 @@ getEventById(id:number):Observable<any>{
   updateEvenenement(id:number, evenement:any):Observable<any>{
     return this.http.put<any>(`${this.getUrl}/evenement/${id}`,evenement)
   }
+
+
 
 }

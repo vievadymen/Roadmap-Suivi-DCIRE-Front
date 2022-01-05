@@ -10,7 +10,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class ActiviteService {
 
-  private getUrl = "http://127.0.0.1:8000"
+  private getUrl = "http://127.0.0.1:8000/api"
 
   constructor(private http:HttpClient) { }
 
