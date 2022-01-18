@@ -87,16 +87,18 @@ seConnecter() {
       console.log(data)
       localStorage.setItem('token', data.token);
       localStorage.setItem('nom', decode.nom)
+      localStorage.setItem('roles', decode.roles[0]);
       localStorage.setItem('structure', decode.structure);
-      if(role=== 'ROLE_PP'){
-        this._router.navigate(['/suivi'])
-      }
-      else{
-        this._router.navigate(['/suivi/accueil-user'])
-      }
+      this._router.navigate(['/suivi/accueil'])
+      // if(role=== 'ROLE_PP'){
+      //   this._router.navigate(['/suivi'])
+      // }
+      // else{
+      //   this._router.navigate(['/suivi/accueil-user'])
+      // }
     }
   );
-    }
+}
   
 
   login() {

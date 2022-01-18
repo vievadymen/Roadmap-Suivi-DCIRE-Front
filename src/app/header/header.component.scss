@@ -1,8 +1,7 @@
 .dropdown:hover>.dropdown-menu {
     display: block;
   }
-  
-  
+   
   .dropdown .dropdown-toggle:active {
     pointer-events: none;
     color: #F16E00;
@@ -21,7 +20,7 @@
   }
 ul li a{
   text-decoration: none;
-  padding: 0 40px;
+  padding: 0 30px;
 }
 ul li a:hover{
   color: #F16E00;
@@ -62,7 +61,7 @@ mat-icon:hover{
   color: #f7a25d;
 }
 .center-nav{
- margin: 0 20%;
+ margin: 0 15%;
 padding: 0;
 }
 .logout{

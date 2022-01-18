@@ -22,10 +22,19 @@ export class EvenementService {
     return this.events;
   }
 
+  getEvenementStructure(){
+    return this.http.get<any>(this.getUrl +'/structure-event')
+  }
 
-getEventById(id:number):Observable<any>{
-  return this.http.get<any>(this.getUrl + '/evenement/'+`${id}`) 
-}
+  getEvenementBySemaine(id:number){
+    return this.http.get<any>(this.getUrl + '/agenda/evenement/'+`${id}`) 
+
+  }
+
+
+  getEventById(id:number):Observable<any>{
+    return this.http.get<any>(this.getUrl + '/evenement/'+`${id}`) 
+  }
 
   getEvenementByStructure(id:number): Observable<any>{
     return this.http.get<any>(this.getUrl + '/structure/'+`${id}`) 

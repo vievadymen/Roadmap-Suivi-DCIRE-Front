@@ -1,10 +1,10 @@
 <div class="sidebar">
     <ul>
         <li>
-            <a class="active font-weight-bold" routerLink="">GLOBALE</a>
+            <a class="font-weight-bold" routerLink="" routerLinkActive="active-link">GLOBALE</a>
         </li>
         <li *ngFor="let structure of structures">
-            <a class="font-weight-bold" (click)="getSelectedStructure(structure.id)">{{structure.libelle}}</a>
+            <a class="font-weight-bold" (click)="getSelectedStructure(structure.id)" routerLinkActive="active-link">{{structure.libelle}}</a>
         </li>
     </ul>
   </div>
@@ -14,7 +14,7 @@
 <div class="container mr-1">
 
     <div class="row bg-light text-center">
-        <h1>EXTRACTION ROADMAP DCIRE</h1>
+        <h1 style="color:darkorange;"> <b> EXTRACTION ROADMAP DCIRE </b> </h1>
     </div>
   
     <div class="row">

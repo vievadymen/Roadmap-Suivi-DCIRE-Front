@@ -1,5 +1,5 @@
 
-      <!--Modal Suppression Activité-->
+<!--Modal Suppression Activité-->
 
 <ng-template #template>
     <button type="button" class="close"  (click)="decline()" >
@@ -132,6 +132,7 @@
       <tr>
         <th scope="col">Libelle</th>
         <th scope="col">Date</th>
+        <th scope="col">Structure</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -140,12 +141,14 @@
           <h2>
               ACTIVITES PHARES DE LA SEMAINE
           </h2>
-          <h3 style="color:#F16E00; ">Aucune activité enregistrée</h3>
+          <h3 style="color:#F16E00; ">Aucune activité enregistrée cette semaine</h3>
       </div> 
       <tr *ngFor= "let activite of activites | paginate: { itemsPerPage: 4, currentPage: p, totalItems: totalLength }" data-toggle="modal"  >
         <td>{{activite.libelle}}
         </td>
         <td class="date" >{{activite.date | date  }}</td>
+        <td class="date" >{{activite.structure['libelle']}}</td>
+
         <td> 
        
           <!-- <a class="text-success"  title="Détails activité"  role="button" data-toggle="modal"  data-target="#detailsModal" (click)="passId(activite.id)"> 
@@ -163,7 +166,7 @@
       <tr>
       </tr>
     </tbody>
-    <tfoot class="text-center" *ngIf="activites || activites.length === 4" >
+    <tfoot class="text-center" *ngIf="activites || activites?.length === 4" >
       <pagination-controls class="activites-pagination" (pageChange)="p = $event"></pagination-controls>
     </tfoot>
 
@@ -176,8 +179,8 @@
     <div class="col">
       <div class="card text-dark bg-light mb-3" >
         <div class="card-header"> <h2> DIFFICULTÉS,POINTS DE VIGILANCE ET DE COORDINATION </h2> </div>
-        <div class="card-body text-center" *ngIf="!diff || diff.length === 0">
-          <h3 style="color:#F16E00; ">Aucune difficulte enregistrée</h3>
+        <div class="card-body text-center" *ngIf="!diff || diff?.length === 0">
+          <h3 style="color:#F16E00; ">Aucune difficulte enregistrée cette semaine</h3>
         </div>
         <div class="card-body" >
           <ul class="list-group" *ngFor= "let difficulte of diff">
@@ -190,7 +193,6 @@
                     <i class="fas fa-trash-alt  ml-3"></i>
                   </a>
                 </div>
-               
             </li>
           </ul>
         </div>
@@ -199,6 +201,9 @@
     <div class="col">
       <div class="card text-dark bg-light mb-3">
         <div class="card-header"> <h2> AGENDA DES EVENEMENTS </h2> </div>
+        <div class="card-body text-center" *ngIf="!events || events?.length === 0">
+          <h3 style="color:#F16E00; ">Aucun événement disponible</h3>
+        </div>
         <div class="card-body" >
           <ul class="list-group" *ngFor="let event of events">
             <li class="list-group-item">{{event.thematique}} --- {{event.start | date}}
@@ -211,7 +216,6 @@
                 </a>
               </div>
             </li>
-           
           </ul>
         </div>
       </div>

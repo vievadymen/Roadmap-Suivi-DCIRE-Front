@@ -38,6 +38,15 @@ updateActivite(id:number, activite:any):Observable<any>{
   DeleteActivite(id:number):Observable<{}>{
     return this.http.delete<any>(this.getUrl + '/activite/'+`${id}`)
   }
+
+  getActiviteByStructure(id:number): Observable<any>{
+    return this.http.get<any>(this.getUrl + '/structure-activite/'+`${id}`) 
+  }
+
+  getActiviteBySemaine(id:number): Observable<any>{
+    return this.http.get<any>(this.getUrl + '/activite/semaine/'+`${id}`)
+  }
+
 }
 
 

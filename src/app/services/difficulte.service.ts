@@ -32,9 +32,7 @@ export class DifficulteService {
 
   updateDifficulte(id:number, difficulte:Difficulte[]):Observable<any>{
     return this.http.put<any>(`${this.getUrl}/difficulte/${id}`,difficulte)
-
   }
-
  
   deleteDifficulte(id:number):Observable<{}>{
     return this.http.delete<any>(this.getUrl + '/difficulte/'+`${id}`)

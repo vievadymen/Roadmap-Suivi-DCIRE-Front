@@ -15,6 +15,7 @@ import { ConnexionComponent } from './connexion/connexion.component';
 import { SuiviComponent } from "./suivi/suivi.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { AuthGuard } from './_guards/auth.guard';
+import { RoleGuardService as RoleGuard } from "./services/role-guard.service";
 import { HomeUserComponent } from './home-user/home-user.component';
 import { Role } from './models/role';
 import { ListUsersComponent } from './list-users/list-users.component';
@@ -22,6 +23,7 @@ import { AddProfilComponent } from './add-profil/add-profil.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { BrowserModule } from '@angular/platform-browser';
+import { DatePipe } from '@angular/common';
 
 
 registerLocaleData(localeFr);
@@ -30,12 +32,13 @@ registerLocaleData(localeFr);
 
 const routes: Routes = [
   {path: 'connexion', component: ConnexionComponent },
+  
   {path: 'suivi', component: SuiviComponent,  canActivate: [AuthGuard],
     children: [
-      {path: 'accueil-user', component: HomeUserComponent,canActivate: [AuthGuard], data: {roles: [Role.Admin]}},
       {
-        path: 'accueil', component: DashboardComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]},
+        path: 'accueil', component: HomeUserComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]},
       },
+      {path: 'dashboard', component: DashboardComponent, canActivate: [RoleGuard] },
       {
         path: 'settings', component: SettingsComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]},
         children: [
@@ -65,9 +68,6 @@ const routes: Routes = [
       },
     ]
     },
-  {
-    path: 'settings', component: SettingsComponent,
-  },
   { path: '', redirectTo: 'connexion', pathMatch: 'full' },
 ];
 
@@ -84,6 +84,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   exports: [RouterModule],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR'},
+    DatePipe
   ]
 })
 export class AppRoutingModule {

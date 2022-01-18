@@ -8,15 +8,16 @@ import { TokenStorageService } from '../services/token-storage.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(private auth:AuthService, private tokenStorage:TokenStorageService) { }
+  is_admin:boolean = false;
+  constructor(public auth:AuthService, private tokenStorage:TokenStorageService) { }
 
   ngOnInit(): void {
 
-    this.getUser()    
+    this.getUser()   
+    this.is_admin = (localStorage.getItem("roles")==="ROLE_PP")?true:false;
 
    }
-   //public user = this.tokenStorage.getUser()
+   //public user= this.tokenStorage.getUser()
 
    public currentUser:any
 

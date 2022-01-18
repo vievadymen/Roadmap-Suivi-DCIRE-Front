@@ -1,60 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef, } from '@angular/core';
-
-  import { map } from 'rxjs/operators';
-
-
-import { HttpClient } from '@angular/common/http';
-import localeEs from '@angular/common/locales/es';
-
-
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView,
-} from 'angular-calendar';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, } from '@angular/core';
+import * as $ from "jquery";
+import 'bootstrap';
+import { DatePipe } from '@angular/common';
+import { CalendarOptions, Identity } from '@fullcalendar/angular'; // useful for typechecking
 import { EvenementService } from '../services/evenement.service';
-import { BsModalService,BsModalRef } from 'ngx-bootstrap/modal';
-import { AbstractControl, FormArray,FormBuilder, FormGroup, Validators,  } from '@angular/forms';
-import { FormControl } from "@angular/forms";
-import { EventColor } from 'calendar-utils';
-//import { CustomDateFormatter } from './custom-date-formatter.provider';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import listPlugin from '@fullcalendar/list';
+import interactionPlugin from '@fullcalendar/interaction'; // for selectable
+import dayGridPlugin from '@fullcalendar/daygrid'; // for dayGridMonth view
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import * as moment from 'moment';
+import 'moment/locale/fr';
 
-
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
-
-
-export interface Fruit {
-  name: string;
-}
 
 
 @Component({
@@ -65,268 +22,301 @@ export interface Fruit {
 })
 export class RoadmapComponent {
 
-  @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
+  public events: any;
+  public myEvents: any;
+  public myEvent: any;
+  public modalRef?: BsModalRef;
+  public clikedEvent: any;
+  public displayModal: boolean;
+  public index: number = 1;
+  public valeurtags: [] = [];
+  public myId: any;
+  public idEvent: any;
+  public eventItem: any;
 
-  view: CalendarView = CalendarView.Month;
+  editEventForm = new FormGroup({
+    thematique: new FormControl(''),
+    start: new FormControl(''),
+    end: new FormControl(''),
+  });
 
-  CalendarView = CalendarView;
 
-  modalRef?: BsModalRef;
-
-
-  public idEvent:any;
-
-  viewDate: Date = new Date();
 
   addEventForm = new FormGroup({
     thematique: new FormControl(''),
     start: new FormControl(''),
     end: new FormControl(''),
     tags: new FormArray([]),
-    tagEvents:new FormArray([]),
+    tagEvents: new FormArray([]),
   })
 
+
+
+  calendarOptions: CalendarOptions = {
+    headerToolbar: {
+      center: 'dayGridMonth,timeGridWeek,listWeek',
+    },
+    plugins: [listPlugin, interactionPlugin, dayGridPlugin],
+    initialView: 'dayGridMonth',
+    events: [],
+    eventColor: '#378001',
+    // eventClick: this.details,
+    locale: 'fr',
+    selectable: true,
+    eventClick: (event) => {
+      let clickedEvent: any;
+      this.events.forEach((evenement: any) => {
+        if (evenement.id === event.event._def.publicId) {
+          clickedEvent = evenement;
+          return clickedEvent
+        }
+      });
+      console.log(event)
+      this.clikedEvent = clickedEvent;
+      this.myId = event.event._def.publicId
+      console.log(event.event._def.publicId);
+      this.getEventById(event.event._def.publicId);
+
+      this.displayModal = true;
+    },
+    dateClick: function (info) {
+      alert('Vous avez cliqué sur: ' + info.dateStr);
+      // change the day's background color just for fun
+      //  info.dayEl.style.backgroundColor = 'red';
+    },
+   
+  };
+
+  constructor(private event: EvenementService, private datePipe: DatePipe,
+    private modalService: BsModalService,
+    private fb: FormBuilder,
+    private evenement: EvenementService) { }
+
+  ngOnInit(): void {
+    this.getEvents();
+    this.getMyEvents();
+
+    this.addEventForm = this.fb.group({
+      thematique: ['', Validators.required],
+      start: ['', Validators.required],
+      end: ['', Validators.required],
+      fonction_autorite: [''],
+      tagEvents: this.fb.array([])
+    });
+
+    this.editEventForm = this.fb.group({
+      thematique: (''),
+      start: (''),
+      end: ('')
+    });
+
+
+  }
   submitted = false;
 
-  public valeurtags :[]=[];
+  get f() { return this.addEventForm.controls }
 
-  get f() { return this.addEventForm.controls  }
-  
 
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  } | undefined;
-
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
-
-  refresh: Subject<any> = new Subject();
-
-  public get tags():FormArray {
-    //ajouter une boucle pour limiter les champs dynamiques
-    return this.addEventForm.get('tags') as FormArray;
-  }
-
-  public get tagEvents():FormArray {
+  public get tagEvents(): FormArray {
     //ajouter une boucle pour limiter les champs dynamiques
     return this.addEventForm.get('tagEvents') as FormArray;
   }
 
+  public deleteTag(index: number): void {
+    this.tagEvents.removeAt(index);
+    this.tagEvents.markAsDirty();
+  }
 
-  events: CalendarEvent[] = [];
+  transformDate(date: any) {
+    return this.datePipe.transform(date, 'yyyy-MM-dd');
+  }
 
+  public details(info: any) {
+    alert('Vous avez cliqué sur ' + info.event.title)
+  }
 
+  public getEventById(id: any): void {
+    this.evenement.getEventById(id).subscribe(
+      (e) => {
+        this.myEvent = e
+        console.log(e);
 
-myEvents(){
-  this.evenement.getEvenenement().subscribe((data) =>{
-    data.forEach((element:any)  => {
-      console.log(element);
-      element.start = new Date(element.start)
-      element.end = new Date(element.end)
-      element.actions = this.actions
-      element.color = colors.yellow
-      element.title=element.thematique
-      
-      this.events.push(element);
-    });
-    
-  })
-  console.log(this.events);
-  
-}
-
-  activeDayIsOpen: boolean = true;
-
-  constructor(private modal: NgbModal,   private evenement: EvenementService,
-    private modalService:BsModalService,
-    private fb: FormBuilder) {}
-
-  ngOnInit():void{
-    this.myEvents();
-    
-    this.addEventForm = 
-    this.fb.group({
-      thematique:['', Validators.required],
-      start: ['', Validators.required],
-      end: ['', Validators.required],
-      fonction_autorite:[''],
-      tags:this.fb.array([]),
-      tagEvents:this.fb.array([])
-    });
-    
-   }
-
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
       }
-      this.viewDate = date;
+    )
+  }
+public structure:any
+  public getEvents() {
+    this.events = []
+    this.event.getEvenenement().subscribe(
+      (data) => {
+        data.forEach((element: any) => {
+          element.start = this.transformDate(element.start)
+          element.end = this.transformDate(element.end)
+          element.title = element.thematique
+          //console.log(element.structure);
+          // //element.draggable=true
+          this.structure = element.structure
+          this.events.push(element);
+        })
+        
+       // console.log(this.events);
+        console.log(this.structure);
+        this.events.forEach((event:any) =>{
+          if (this.structure.libelle === 'PP') {
+            console.log(event);
+            
+          event.color='blue'
+          }else{
+            event.color = 'red'
+          }
+        })
+        
+        this.calendarOptions.events = this.events;
+      })
+    console.log(this.events);
+  }
+
+  public updateEvenement() {
+    console.log(this.idEvent);
+    console.log(this.editEventForm.value);
+    this.evenement.updateEvenenement(this.idEvent, this.editEventForm.value).subscribe(
+      res => {
+        console.log(res);
+        this.confirm();
+        this.getEvents();
+      });
+  }
+
+
+
+  public getMyEvents() {
+    this.event.getEvenementStructure().subscribe(
+      (data) => {
+        this.myEvents = data
+        console.log(this.myEvents);
+      }
+    )
+  }
+
+  decline(): void {
+    // this.message = 'Declined!';
+    this.modalRef?.hide();
+  }
+
+
+
+  openModal(template: TemplateRef<any>, id: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.idEvent = id;
+    console.log(id);
+  }
+
+  open(content: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(content, { class: 'modal-lg' });
+  }
+
+  openEditEventModal(editEventcontent: TemplateRef<any>, id: any) {
+
+    this.modalRef = this.modalService.show(editEventcontent, { class: 'modal-lg' });
+    this.idEvent = id;
+    this.getSelectedEvent(this.idEvent);
+    this.displayEvent(this.eventItem);
+  }
+
+
+  public addTagEvents() {
+    if (this.index <= 14) {
+      let addtags = this.addEventForm.get('tagEvents') as FormArray;
+      addtags.push(this.fb.group({
+        thematique: [],
+        start: [],
+        end: [],
+        fonction_autorite: [],
+        // tags:this.fb.array([]),
+        tagEvents: this.fb.array([])
+      }));
+      this.index++;
     }
+    return false;
+
+    //  else {
+    //    alert('Vous ne pouvez enregistrer que dix (10) activités')
+    //  }
   }
 
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd,
-  }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
-
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
-  }
-
-  addEvent(): void {
+  public addEvent(): void {
 
     this.submitted = true;
-    this.valeurtags= this.addEventForm.getRawValue();
+    this.valeurtags = this.addEventForm.getRawValue();
 
-    let firstvaleur={
+    let firstvaleur = {
       "thematique": this.addEventForm.value.thematique,
       "start": this.addEventForm.value.start,
       "end": this.addEventForm.value.end,
       "fonction_autorite": this.addEventForm.value.fonction_autorite
     }
 
-    console.log(this.addEventForm.value);
+
+    console.log(firstvaleur);
+
+    if (this.addEventForm.invalid) {
+      return;
+    }
 
     this.evenement.postEvenement(firstvaleur).subscribe(
-      event=>{
+      event => {
         console.log(event);
       },
-      (error) =>{
+      (error) => {
         console.log(error);
-      } );
-      this.addEventForm.reset()
-      this.confirm();
-    
-    // this.events = [
-    //   ...this.events,
-    //   {
-    //     thematique: 'Nouvel événement',
-    //     start: startOfDay(new Date()),
-    //     end: endOfDay(new Date()),
-    //     lieu: 'Sonatel',
-    //     etat: 'actif',
-    //     structure_org:'REX',
-    //     structure_concernee:'CORP',
-    //     color: colors.red,
-    //     draggable: true,
-    //     resizable: {
-    //       beforeStart: true,
-    //       afterEnd: true,
-    //     },
-    //   },
-    // ];
+      });
+    this.addEventForm.value.tagEvents.forEach((element: any) => {
+      this.evenement.postEvenement(element).subscribe();
+    });
+    this.addEventForm.reset()
+    this.confirm();
+    this.getEvents();
   }
 
   confirm(): void {
     this.modalRef?.hide();
   }
- 
 
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
+
+  public DeleteEvent() {
+    this.evenement.DeleteEvenement(this.idEvent).subscribe(
+      (response) => {
+        this.confirm();
+        this.getEvents();
+      },
+      (error) => {
+        console.log(error);
+      })
+  }
+
+    /**
+  * récupérer l'événement
+  */
+     public getSelectedEvent(id: any): void {
+
+      this.evenement.getEventById(id).subscribe(
+        (events) => {
+          console.log(events);
+          this.eventItem = events
+          this.displayEvent(events);
+        }
+      )
+    }
+
+  public displayEvent(event: any[]): void {
+    this.eventItem = event;
+    this.editEventForm.patchValue({
+      thematique: this.eventItem.thematique,
+      start: this.eventItem.start,
+      end: this.eventItem.end
+   })
   }
 
 
-  setView(view: CalendarView) {
-    this.view = view;
-  }
 
-  closeOpenMonthViewDay() {
-    this.activeDayIsOpen = false;
-  }
-
-  open(content: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(content, {class: 'modal-lg'});
-  }
-
-  decline(): void {
-    this.modalRef?.hide();
-  }
-
-  public get thematique() { return this.addEventForm.get('thematique'); }
-  public get start() { return this.addEventForm.get('start'); }
-  public get end() { return this.addEventForm.get('end'); }
-  public get fonction_autorite() { return this.addEventForm.get('fonction_autorite'); }
-
-
-
-
-  index:number = 1;
-
-  // public addTags(){
-  //     if (this.index <=2) {
-  //       let addtags =this.addEventForm.get('tags') as FormArray;
-  //       addtags.push(this.fb.group({
-  //         fonction_autorite: []
-  //       })); 
-  //       this.index++;
-  //     } 
-  //     return false;
- 
-  // }
-
-  public addTagEvents(){
-      if (this.index <=2) {
-        let addtags = this.addEventForm.get('tagEvents') as FormArray;
-        addtags.push(this.fb.group({
-          thematique:[],
-          start: [],
-          end: [],
-          fonction_autorite: [],
-         // tags:this.fb.array([]),
-          tagEvents:this.fb.array([])
-        })); 
-        this.index++;
-      } 
-      return false;
-      
-     //  else {
-     //    alert('Vous ne pouvez enregistrer que dix (10) activités')
-     //  }
-  }
-
-  public deleteTag(index:number):void {
-    this.tagEvents.removeAt(index);
-    this.tagEvents.markAsDirty();
-  }
-
-
- 
 }

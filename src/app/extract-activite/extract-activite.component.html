@@ -1,5 +1,16 @@
+<div class="sidebar">
+    <ul>
+        <li>
+            <a class="font-weight-bold" routerLink="" routerLinkActive="active-link">GLOBALE</a>
+        </li>
+        <li *ngFor="let structure of structures">
+            <a class="font-weight-bold" (click)="getSelectedStructure(structure.id)" routerLinkActive="active-link">{{structure.libelle}}</a>
+        </li>
+    </ul>
+  </div>
+  
 
-<div class="container">
+<div class="container mr-1">
     <div class="row">
         <div class="col">
             <button class="btn extract-btn mt-2" (click)="exportexcel()">Extraire</button>
@@ -10,6 +21,7 @@
           <tr>
             <th scope="col"> <h3> <strong>Libelle</strong> </h3></th>
             <th scope="col"><h3> <strong>Date</strong> </h3></th>
+            <th scope="col"><h3> <strong>Structure</strong> </h3></th>
           </tr>
         </thead>
         <tbody class="text-center">
@@ -25,6 +37,9 @@
                 </td>
                 <td>
                     {{activite.date |date }}
+                </td>
+                <td>
+                    {{activite.structure['libelle']}}
                 </td>
             </tr>
             <tr> </tr>
@@ -57,8 +72,6 @@
                         </td>
                     </tr>
                 </td>
-               
-            
 
             <tr></tr>
 

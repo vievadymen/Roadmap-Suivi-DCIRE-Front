@@ -38,8 +38,8 @@ public endDayWeek:any;
 
 
   addForm= new FormGroup({
-    //  libelle : new FormControl('',Validators.required),
-      //date: new FormControl(''), 
+      libelle : new FormControl('',Validators.required),
+      date: new FormControl(''), 
       tags: new FormArray([])
      });
 
@@ -63,25 +63,23 @@ public endDayWeek:any;
 
   ngOnInit(): void {
 
-    this.addForm = 
-    this.fb.group({
+    this.addForm = this.fb.group({
       libelle:['', Validators.required],
-      date: [''],
+      date: ['', Validators.required],
       tags:this.fb.array([])
-
     });
 
     this.diffForm = this.fb.group({
-      description:(''),
+      description:['', Validators.required],
       tagDiff:this.fb.array([])
      });
 
      this.eventForm = this.fb.group({
       thematique:(''),
-      start:(''),
+      start:['', Validators.required],
       tagEvent:this.fb.array([])
     });
-  
+
 
     this.startDayWeek = moment().weekday(1);
     this.endDayWeek  = moment().weekday(+7);
@@ -96,8 +94,12 @@ public endDayWeek:any;
       "libelle": this.addForm.value.libelle,
       "date": this.addForm.value.date
     }
-
+ 
     console.log(firstvaleur);
+
+    if (this.addForm.invalid || this.diffForm.invalid ) {
+      return;
+  }
 
     this._activite.postActivite(firstvaleur).subscribe(
     data => {
@@ -115,7 +117,7 @@ public endDayWeek:any;
      this.activites = data
    });
 
-   this.valeurtagEvent= this.eventForm.getRawValue();
+   this.valeurtagEvent = this.eventForm.getRawValue();
    this.evenement.postEvenement(this.valeurtagEvent).subscribe(
      event=>{
        console.log(event);
@@ -143,7 +145,18 @@ public redirection(){
 }
 
 
-  get f() { return this.addForm.controls  }
+  public get f() { 
+    return this.addForm.controls 
+   }
+
+  public get d() { 
+    return this.diffForm.controls 
+   }
+
+
+  public get e() { 
+    return this.eventForm.controls 
+   }
 
 
   public get tags():FormArray {

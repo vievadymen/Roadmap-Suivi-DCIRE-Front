@@ -5,6 +5,7 @@ import * as XLSX from 'xlsx';
 import { Difficulte } from '../models/difficulte';
 import { DifficulteService } from '../services/difficulte.service';
 import { EvenementService } from '../services/evenement.service';
+import { StructureService } from '../services/structure.service';
 
 
 
@@ -27,14 +28,21 @@ export class ExtractActiviteComponent implements OnInit {
   public totalLength :any;
   public difficultes: any;
   public evenements:any;
+  public structures : any;
+  public activities : any;
+  public idEvent: any;
 
 
-  constructor(private _activite:ActiviteService, private difficulte: DifficulteService, private evenement:EvenementService) { }
+
+  constructor(private _activite:ActiviteService, private difficulte: DifficulteService,
+     private evenement:EvenementService,  private structure:StructureService) { }
 
   ngOnInit(): void {
     this.getAllActivite();
     this.showDifficulte();
     this.showEvent();
+    this.getStructure();
+
   }
 
   getAllActivite(){
@@ -51,7 +59,7 @@ export class ExtractActiviteComponent implements OnInit {
     this.difficulte.getDifficulte().subscribe(
       data =>{
         console.warn(data);     
-        this.difficultes =data;
+        this.difficultes = data.reverse();
       })
   }
 
@@ -59,7 +67,7 @@ export class ExtractActiviteComponent implements OnInit {
     this.evenement.getEvenenement().subscribe(
       data=>{
         console.warn(data);
-        this.evenements= data;
+        this.evenements = data.reverse();
       });
   }
 
@@ -83,5 +91,60 @@ exportexcel(): void
    XLSX.writeFile(wb, this.activite);
   
 }
+
+public passId(id:any){
+  this.idEvent = id;
+  console.log(id);       
+}
+
+getStructure(){
+  this.structure.getStructure().subscribe(
+    data=>{
+      console.log(data);
+      this.structures = data;
+    }
+  )
+}
+
+
+myEventsByStructure(id:any){
+  this.evenement.getEvenementByStructure(id).subscribe(
+    data=>{
+      console.warn(data);
+      this.evenements = data.evenement;
+    } )
+}
+
+myActivitiesByStructure(id:any){
+  this._activite.getActiviteByStructure(id).subscribe(
+    data=>{
+      console.warn(data);
+      this.activites = data.activite;
+    } )
+}
+
+myDifficultesByStructure(id:any){
+  this._activite.getActiviteByStructure(id).subscribe(
+    data=>{
+      console.warn(data);
+      this.activites = data.activite;
+    } )
+}
+
+
+
+public getSelectedStructure(id:any):void{
+      
+  this.structure.getStructureById(id).subscribe(
+    (event) => {
+      console.log(event.id);  
+      this.myEventsByStructure(id);
+      // if (!event.id) {
+      //   this.structures= event
+      // }    
+    }
+  )
+}
+
 
 }

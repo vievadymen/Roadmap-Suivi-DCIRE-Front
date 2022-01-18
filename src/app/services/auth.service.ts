@@ -42,7 +42,7 @@ export class AuthService {
   login(user:any) {
     return this.http.post<any>(this._connexionUrl, user)
       .pipe(
-        map(user => {
+        map(user => { 
           // login successful if there's a jwt token in the response
           if (user && user.token) {
               // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -54,22 +54,31 @@ export class AuthService {
           return user;
       }));
     }
+    private getUrl = "http://127.0.0.1:8000/api"
 
- 
+    users = this.http.get<any>(this.getUrl +'/users')
+
+    SignIn(user :User):Boolean{
+      let validUser: Boolean = false;
+      this.users.forEach((curUser:any) => {
+        if(user.username=== curUser.username && user.password==curUser.password) {
+          validUser = true;
+          this.loggedUser = curUser.username;
+          this.isloggedIn = true;
+          this.roles = curUser.roles;
+          localStorage.setItem('loggedUser',this.loggedUser);
+          localStorage.setItem('isloggedIn',String(this.isloggedIn));
+        }
+      });
+  
+       return validUser;
+    }
 
     isAdmin():Boolean{
       if (!this.roles) //this.roles== undefiened
          return false;
       return (this.roles.indexOf('ROLE_PP') >-1);
     }
-
-   InfosSave(token: any){
-    let from :any = jwt_decode(token);
-     localStorage.set({key: 'token', value: token});
-    //await localStorage.set({key: 'id', value: from['id']});
-     localStorage.set({key: 'role', value: from['roles']});
-     localStorage.set({key: 'username', value: from['usernane']});     
- }
 
   connexionUser(user:any){
    return this.http.post<any>(this._connexionUrl, user)
@@ -89,9 +98,11 @@ export class AuthService {
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
-    // Check whether the token is expired and return
-    // true or false
-    return (!!token);
+   if(token){
+     return true;
+   }else{
+     return false
+   }
   }
 
  

@@ -7,3 +7,34 @@
      background-color: #F16E00;
      color: white;
 }
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #ffffff;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+  }
+  
+  .sidebar a {
+    display: block;
+    color: black;
+    padding: 20px;
+    text-decoration: none;
+  }
+   
+  .sidebar a.active {
+    background-color: #50BE87;
+    color: white;
+  }
+  
+  .sidebar a:hover:not(.active) {
+    background-color: rgb(153, 153, 153);
+    color: white;
+  }
+  
+  .active-link{
+    background-color: #50BE87;
+  
+  }

@@ -49,7 +49,7 @@ export class ExtractRoadmapComponent implements OnInit {
     console.log(id);       
  }
 
-//ajouté recemment pour voir si j'ai l'id de la structure
+
  public getSelectedStructure(id:any):void{
       
   this.structure.getStructureById(id).subscribe(

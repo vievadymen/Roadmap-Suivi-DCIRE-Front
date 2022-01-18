@@ -8,13 +8,18 @@
             <div class="form-group row">
                 
                 <div class="col-md-6"> 
-                 <input type="text" class="form-control" formControlName="libelle" placeholder="libellé de l'activité" id="libelle" required>
+                 <input type="text" class="form-control" formControlName="libelle" placeholder="libellé de l'activité" id="libelle" required
+                 [ngClass]="{'is-invalid': submitted && f.libelle.errors }">
                 <div *ngIf="submitted && f.libelle.errors" class="invalid-feedback">
                   <div *ngIf="f.libelle.errors.required"> Veuillez saisir le libellé </div>
-              </div>          
+                </div>          
                </div> 
               <div class="col-md-3"> 
-                <input type="date" class="form-control" formControlName="date" placeholder="Date" min="{{startDayWeek}}" max="{{endDayWeek}}">
+                <input type="date" class="form-control" formControlName="date" placeholder="Date" min="{{startDayWeek}}" max="{{endDayWeek}}"
+                [ngClass]="{'is-invalid': submitted && f.date.errors }">
+                <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                  <div *ngIf="f.date.errors.required"> Veuillez saisir la date de l'activité </div>
+                  </div>
               </div> 
             </div>
       
@@ -22,10 +27,18 @@
             <div class="form-group row mb-2" [formGroupName]="i">
                <h3 style="color: #F16E00;"> {{'Activité' + ' ' +(i+2)}} </h3> 
               <div class="col-md-6"> 
-                <input type="text" class="form-control"  placeholder="libellé" formControlName = "libelle">
+                <input type="text" class="form-control"  placeholder="libellé" formControlName = "libelle"
+                [ngClass]="{'is-invalid': submitted && f.libelle.errors }">
+                <div *ngIf="submitted && f.libelle.errors" class="invalid-feedback">
+                  <div *ngIf="f.libelle.errors.required"> Veuillez saisir le libellé </div>
+                </div>          
               </div>
               <div class="col-md-3"> 
-                <input type="date" class="form-control" placeholder="Date"  formControlName = "date">
+                <input type="date" class="form-control" placeholder="Date"  formControlName = "date"
+                [ngClass]="{'is-invalid': submitted && f.date.errors }">
+                <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                  <div *ngIf="f.date.errors.required"> Veuillez saisir la date de l'activité </div>
+                  </div>
               </div>
               <div class="col-md-3">
                 <button type="button" class="btn-danger btn-sm" (click)="deleteTag(i)"><i class="fas fa-trash-alt"></i></button>
@@ -50,12 +63,20 @@
       
               <form action="" [formGroup]="diffForm" (ngSubmit)="PostDifficulte()">
               <div class="form-group ">
-                <input class="form-control" type="text" formControlName="description"> 
+                <input class="form-control" type="text" formControlName="description" 
+                 [ngClass]="{'is-invalid': submitted && d.description.errors }"> 
+              <div *ngIf="submitted && d.description.errors" class="invalid-feedback">
+                  <div *ngIf="d.description.errors.required"> Veuillez remplir ce champ </div>
+              </div>
               </div>
                 <div formArrayName="tagDiff" *ngFor="let tag of tagDiff.controls; let i=index; ">
                   <div class="form-group row mb-2" [formGroupName]="i">
                     <div class="col-md-10"> 
-                      <input type="text" class="form-control"  placeholder="" formControlName = "description">
+                      <input type="text" class="form-control"  placeholder="" formControlName = "description"
+                      [ngClass]="{'is-invalid': submitted && f.description.errors }"> 
+                      <div *ngIf="submitted && d.description.errors" class="invalid-feedback">
+                          <div *ngIf="d.description.errors.required"> Veuillez remplir ce champ </div>
+                      </div>
                     </div>
                     <div class="col-md-2">
                       <button type="button" class="btn-danger btn-sm" (click)="deleteTagDiff(i)"><i class="fas fa-trash-alt"></i></button>
@@ -80,6 +101,10 @@
                  </div>
                  <div class="col-sm-4">
                   <input type="date" class="form-control" id="inputPassword3" placeholder="Password" formControlName="start">
+                  <!-- [ngClass]="{'is-invalid': submitted && f.date.errors }">
+                <div *ngIf="submitted && e.start.errors" class="invalid-feedback">
+                  <div *ngIf="e.start.errors.required"> Veuillez saisir la date de l'événement </div>
+                  </div> -->
                 </div>
                </div>
       
@@ -90,7 +115,11 @@
                     <input type="text" class="form-control"  placeholder="{{'événement'+' '+(i+2)}}" formControlName ="thematique">
                   </div>
                   <div class="col-md-4"> 
-                    <input type="date" class="form-control" placeholder="Date"  formControlName = "start">
+                    <input type="date" class="form-control" placeholder="Date"  formControlName = "start"
+                    [ngClass]="{'is-invalid': submitted && f.date.errors }">
+                <div *ngIf="submitted && e.start.errors" class="invalid-feedback">
+                  <div *ngIf="e.start.errors.required"> Veuillez saisir la date de l'événement </div>
+                  </div>
                   </div>
                   <div class="col-md-1">
                     <button type="button" class="btn-danger btn-sm" (click)="deleteTagEvent(i)"><i class="fas fa-trash-alt"></i></button>
@@ -105,12 +134,11 @@
              </div>
            
           </div>
-      
            <div class="form-group">
             </div>
       
             <div class="modal-footer">
-              <button type="submit" class="btn btn-success"  (click)="AddActivite()" > Enregistrer </button>
+              <button type="submit" class="btn btn-success"  (click)="AddActivite()"> Enregistrer </button>
               <button type="button" class="btn btn-secondary" (click)="decline()"> Annuler </button>         
             </div>
            
