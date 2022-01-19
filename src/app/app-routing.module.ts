@@ -55,7 +55,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'roadmap', component:RoadmapComponent, canActivate: [AuthGuard],
+        path: 'roadmap', component:NotificationComponent, canActivate: [AuthGuard],
       },
 
          { path: 'extract-activite', component:ExtractActiviteComponent,  },

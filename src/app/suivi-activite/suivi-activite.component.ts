@@ -1,7 +1,7 @@
 import { DifficulteService } from './../services/difficulte.service';
 import { AuthService } from './../services/auth.service';
 import { User } from '../models/user';
-import { Component, OnInit,ViewChild,TemplateRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, enableProdMode } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { CalendarOptions } from '@fullcalendar/angular'; // useful for typechecking
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -21,6 +21,7 @@ import * as moment from 'moment';
 import 'moment/locale/fr';
 import { EvenementService } from '../services/evenement.service';
 import * as XLSX from 'xlsx'; 
+import { th } from 'date-fns/locale';
 
 
 
@@ -96,6 +97,7 @@ export class SuiviActiviteComponent implements OnInit {
   public p: number = 1;
   
   public totalLength :any;
+  public countWeeks: any;
 
   public PrevAndNextClicked = false;
 
@@ -157,10 +159,10 @@ constructor (  private httpClient: HttpClient,
 
   ngOnInit():void{
 
-    console.log(moment.locale());
+    
     moment(moment().toDate(), "MM-DD-YYYY").isoWeek()
-
-   
+    this.enableButton();
+    this.countWeeks =  moment().weeksInYear();
       
     let n = moment().format('LLL')
     console.log(n);
@@ -240,42 +242,64 @@ constructor (  private httpClient: HttpClient,
     this.calendarOptions.weekends = !this.calendarOptions.weekends // toggle the boolean!
   }
 
-  public previous(){
-
-    this.PrevAndNextClicked = true;
-    if (this.weekNumber <= 1) {
-      return;
+  public enableButton(){
+    let semaineEncours = moment().subtract(1, 'weeks').week()
+    if(semaineEncours  <= 1){
+      this.PrevAndNextClicked = false;
     }
 
-    this.weekNumber = moment().subtract(1, 'weeks').week()
-    this.startDayWeek = moment().subtract(1, 'weeks').startOf('week')
-    this.endDayWeek  = moment().subtract(1, 'weeks').endOf('week')
-  }
-  
-
-  public next(){
-    // for (let index = 1; index < moment().week(); index++) {
-    //   const element = array[index];
-      
-    // }
-   // for ( this.weekNumber = 0; this.weekNumber < 52; this.weekNumber++) {
-      this.weekNumber = moment().add(1, 'weeks').week()
-      this.startDayWeek = moment().add(1, 'weeks').startOf('week')
-      this.endDayWeek  = moment().add(1, 'weeks').endOf('week')
-    //}
-
-
   }
 
-  public semainePrecedente(){
+  public previous( weekNumber: any){
+    let datre = parseInt(weekNumber);
+    if(datre > 1){
+      this.PrevAndNextClicked = true;
+    this.weekNumber = datre-1;
+    
+    this.startDayWeek = moment().startOf('week').week(this.weekNumber)
+    this.endDayWeek  = moment().endOf('week').week(this.weekNumber)
 
-    // this._activite.getActiviteBySemaine(this.weekNumber - 1).subscribe(data=>{
-    //   console.warn(data)
-    //   this.activites = data.reverse()
-    //   this.totalLength = data.length 
-    // });
-  
-  
-          }
+    this._activite.getActiviteBySemaine(this.weekNumber).subscribe(data=>{
+      console.warn(data)
+      this.activites = data.reverse()
+      this.totalLength = data.length 
+    });
 
+    this.evenement.getEvenementBySemaine(this.weekNumber).subscribe(
+      data => {
+        console.warn(data);
+        this.events = data.reverse();
+      });
+
+
+    }
+
+    
+  }
+  
+  public next( weekNumber: any){
+    let datre = parseInt(weekNumber);
+    if(datre <= this.countWeeks){
+      this.PrevAndNextClicked = true;
+    this.weekNumber = datre+1;
+    
+    this.startDayWeek = moment().startOf('week').week(this.weekNumber)
+    this.endDayWeek  = moment().endOf('week').week(this.weekNumber)
+    }   
+
+    this._activite.getActiviteBySemaine(this.weekNumber).subscribe(data=>{
+      console.warn(data)
+      this.activites = data.reverse()
+      this.totalLength = data.length 
+    });
+
+    this.evenement.getEvenementBySemaine(this.weekNumber).subscribe(
+      data => {
+        console.warn(data);
+        this.events = data.reverse();
+      });
+  }
+
+ 
+  
 }

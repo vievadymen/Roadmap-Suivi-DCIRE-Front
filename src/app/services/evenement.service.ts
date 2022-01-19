@@ -27,7 +27,7 @@ export class EvenementService {
   }
 
   getEvenementBySemaine(id:number){
-    return this.http.get<any>(this.getUrl + '/agenda/evenement/'+`${id}`) 
+    return this.http.get<any>(this.getUrl + '/agenda/evenement') 
 
   }
 

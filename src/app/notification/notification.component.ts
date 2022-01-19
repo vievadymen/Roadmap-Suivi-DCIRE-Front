@@ -66,9 +66,33 @@ export class NotificationComponent implements OnInit {
     },
     plugins: [listPlugin, interactionPlugin, dayGridPlugin],
     initialView: 'dayGridMonth',
-    events: [],
-    eventColor: '#378001',
-    // eventClick: this.details,
+    events: [
+      {
+        color:'#378001',
+        groupId: '1',
+      },
+      {
+        color:'red',
+        groupId: '2',
+      },
+      {
+        color:'yellow',
+        groupId: '3',
+      },
+      {
+        color:'green',
+        groupId: '4',
+      },
+      {
+        color:'blue',
+        groupId: '5',
+      },
+      {
+        color:'black',
+        groupId: '6',
+      }
+    ],
+
     locale: 'fr',
     selectable: true,
     eventClick: (event) => {
@@ -92,8 +116,8 @@ export class NotificationComponent implements OnInit {
       // change the day's background color just for fun
       //  info.dayEl.style.backgroundColor = 'red';
     },
-   
   };
+
 
   constructor(private event: EvenementService, private datePipe: DatePipe,
     private modalService: BsModalService,
@@ -161,6 +185,7 @@ public structure:any
           element.start = this.transformDate(element.start)
           element.end = this.transformDate(element.end)
           element.title = element.thematique
+          element.color = element.structure?.color
           //console.log(element.structure);
           // //element.draggable=true
           this.structure = element.structure
@@ -170,13 +195,13 @@ public structure:any
        // console.log(this.events);
         console.log(this.structure);
         this.events.forEach((event:any) =>{
-          if (this.structure.libelle === 'PP') {
-            console.log(event);
+          // if (this.structure.libelle === 'PP') {
+          //   console.log(event);
             
-          event.color='#27ae60'
-          }else{
-            event.color = 'red'
-          }
+          // event.color='#27ae60'
+          // }else{
+          //   event.color = 'red'
+          // }
         })
         
         this.calendarOptions.events = this.events;
@@ -198,7 +223,7 @@ public structure:any
 
 
   public getMyEvents() {
-    this.event.getEvenementStructure().subscribe(
+    this.event.getEvenenement().subscribe(
       (data) => {
         this.myEvents = data
         console.log(this.myEvents);

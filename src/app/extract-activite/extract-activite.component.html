@@ -1,7 +1,7 @@
 <div class="sidebar">
     <ul>
         <li>
-            <a class="font-weight-bold" routerLink="" routerLinkActive="active-link">GLOBALE</a>
+            <a class="font-weight-bold" (click)="showEvent()" routerLinkActive="active-link">GLOBALE</a>
         </li>
         <li *ngFor="let structure of structures">
             <a class="font-weight-bold" (click)="getSelectedStructure(structure.id)" routerLinkActive="active-link">{{structure.libelle}}</a>
@@ -25,7 +25,7 @@
           </tr>
         </thead>
         <tbody class="text-center">
-            <div class="row text-center" *ngIf="!activites || activites.length === 0">
+            <div class="row text-center" *ngIf="!activites || activites?.length === 0">
                 <h2>
                     ACTIVITES PHARES DE LA SEMAINE
                 </h2>
@@ -38,7 +38,7 @@
                 <td>
                     {{activite.date |date }}
                 </td>
-                <td>
+                <td >
                     {{activite.structure['libelle']}}
                 </td>
             </tr>

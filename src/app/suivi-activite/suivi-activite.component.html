@@ -17,8 +17,8 @@
             <h1 class=""> SUIVI HEBDO DES ACTIVITES DE DCIRE</h1> 
           </div>
            <h1 class="numWeek"> S {{this.weekNumber}}   -  Du {{startDayWeek.format('LL')  }} au {{endDayWeek.format('LL')}} </h1>
-           <a class="previous round" (click)="previous()">&#8249;</a>
-           <a class="next round float-right" (click)="next()">&#8250;</a>
+           <a class="previous round" (click)="previous(weekNumber)">&#8249;</a>
+           <a class="next round float-right" (click)="next(weekNumber)">&#8250;</a>
         </div>
       </div>
       
@@ -26,8 +26,8 @@
       <div class="card">
         <div class="card-body">
           <div class="d-flex flex-row align-items-center">
-            <div class="col-md-2 float-right"><button type="button" class="btn btn-ajout" routerLink="list-activite" routerLinkActive="active-link" >Liste des activités</button></div>   <!--(click)="open(content)"-->
-            <div class="col-md-2 float-left"><button type="button" class="btn btn-ajout" routerLink="add-activite" routerLinkActive="active-link" >Ajouter une activité</button></div>   <!--(click)="open(content)"-->
+            <div class="col-md-2 float-right"><button type="button" class="btn btn-ajout" routerLink="list-activite" routerLinkActive="active-link" *ngIf="!PrevAndNextClicked" >Liste des activités</button></div>   <!--(click)="open(content)"-->
+            <div class="col-md-2 float-left"><button type="button" class="btn btn-ajout" routerLink="add-activite" routerLinkActive="active-link" *ngIf="!PrevAndNextClicked" >Ajouter une activité</button></div>   <!--(click)="open(content)"-->
             <!-- <button type="button" class="btn btn-dark" (click)="previous">Previous</button>
             <button type="button" class="btn btn-warning" (click)="next">Next</button> -->
             <div class="col-md-6"></div>
@@ -45,11 +45,11 @@
       <th scope="col">Libelle</th>
       <th scope="col">Date</th>
       <th scope="col">Structure</th>
-      <th scope="col">Actions</th>
+      <th scope="col" *ngIf="!PrevAndNextClicked">Actions</th>
     </tr>
   </thead>
   <tbody>
-     <div class="row text-center" *ngIf="!activites || activites.length === 0" >
+     <div class="row text-center" *ngIf="!activites || activites?.length === 0" >
         <h2>
             ACTIVITES PHARES DE LA SEMAINE
         </h2>
@@ -64,7 +64,7 @@
     <tr>
     </tr>
   </tbody>
-  <tfoot class="text-center" *ngIf="activites || activites.length === 4" >
+  <tfoot class="text-center" *ngIf="activites || activites?.length === 4" >
     <pagination-controls class="activites-pagination" (pageChange)="p = $event"></pagination-controls>
   </tfoot>
 
