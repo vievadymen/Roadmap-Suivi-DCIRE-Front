@@ -4,8 +4,8 @@
     border-radius: 5px;
 }
 .table td{
-    padding: 20px;
-    font-size: large;
+    padding: 8px;
+    font-size: medium;
 }
 .date{
     color:  #88888a;
@@ -43,7 +43,16 @@
     color: #F16E00;
 }
 
+.legend {
+    display: block;
+    float: left;
+    height: 16px;
+    width: 30px;
+    margin-right: 5px;
+    margin-left: 0;
+    border: 1px solid #999;
+    }
 
-
-
- 
+    a:active{
+        background-color: #50BE87;
+    }

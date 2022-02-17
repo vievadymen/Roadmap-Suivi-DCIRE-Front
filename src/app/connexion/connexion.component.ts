@@ -8,6 +8,7 @@ import {  } from "../services/token-storage.service";
 import { BehaviorSubject,Observable } from "rxjs";
 import { User } from '../models/user';
 import { UserService } from "../services/user.service";
+import { I } from '@angular/cdk/keycodes';
 
 
 
@@ -88,15 +89,18 @@ seConnecter() {
       localStorage.setItem('token', data.token);
       localStorage.setItem('nom', decode.nom)
       localStorage.setItem('roles', decode.roles[0]);
+      localStorage.setItem('status', decode.status);
       localStorage.setItem('structure', decode.structure);
-      this._router.navigate(['/suivi/accueil'])
-      // if(role=== 'ROLE_PP'){
-      //   this._router.navigate(['/suivi'])
-      // }
-      // else{
-      //   this._router.navigate(['/suivi/accueil-user'])
-      // }
-    }
+      localStorage.setItem('username',decode.username);
+      localStorage.setItem('email',decode.email);
+
+      if(decode.status !==true){
+       alert("vous etes inactif")
+      }else{
+        this._router.navigate(['/suivi/accueil']);
+      }
+    },
+    
   );
 }
   

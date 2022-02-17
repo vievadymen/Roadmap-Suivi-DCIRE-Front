@@ -53,6 +53,8 @@ import { AddActiviteComponent } from './add-activite/add-activite.component';
 import { ListActiviteComponent } from './list-activite/list-activite.component';
 import { AddProfilComponent } from './add-profil/add-profil.component';
 import { ListUsersComponent } from './list-users/list-users.component';
+import { AddStructureComponent } from './add-structure/add-structure.component';
+import { ListStructuresComponent } from './list-structures/list-structures.component';
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
@@ -98,6 +100,8 @@ export function tokenGetter() {
     ListActiviteComponent,
     AddProfilComponent,
     ListUsersComponent,
+    AddStructureComponent,
+    ListStructuresComponent,
     
   ],
   imports: [

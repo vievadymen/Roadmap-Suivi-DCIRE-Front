@@ -24,16 +24,16 @@ export class UserService {
     return this.users;
   }
 
-  getUserById(){
-    
+  getUserById(id:number){
+    return this.http.get<any>(this.getUrl + '/user/'+`${id}`)
   }
 
   deleteUser(id:number):Observable<{}>{
     return this.http.delete<any>(this.getUrl + '/user/'+`${id}`)
   }
 
-  blockUser(id:number){
-
+  blockUser(id:number, action:object){
+    return this.http.post<any>(this.getUrl + '/blockUser/'+`${id}`, action)
   }
 
 }

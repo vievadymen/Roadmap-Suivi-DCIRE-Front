@@ -38,4 +38,11 @@ export class DifficulteService {
     return this.http.delete<any>(this.getUrl + '/difficulte/'+`${id}`)
   }
 
+  getDifficulteBySemaine(semaine:number){
+    return this.http.get<any>(this.getUrl + '/difficulte/semaine/'+`${semaine}`)
+  }
+
+  getDifficulteByStructureSemaine(id:any, semaine:any){
+    return this.http.get<any>(this.getUrl + '/structure-diff/'+ `${id}`+ '/'+`${semaine}` )
+  }
 }

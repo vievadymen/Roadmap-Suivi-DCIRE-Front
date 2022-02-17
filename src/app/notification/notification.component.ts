@@ -11,12 +11,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'; // for dayGridMonth view
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import * as moment from 'moment';
 import 'moment/locale/fr';
-
-
-
-
-
-
+import { StructureService } from '../services/structure.service';
 
 
 
@@ -41,11 +36,16 @@ export class NotificationComponent implements OnInit {
   public myId: any;
   public idEvent: any;
   public eventItem: any;
+  public structures: any;
+
 
   editEventForm = new FormGroup({
     thematique: new FormControl(''),
     start: new FormControl(''),
     end: new FormControl(''),
+    lieu: new FormControl(''),
+    autorite: new FormControl(''),
+
   });
 
 
@@ -54,7 +54,9 @@ export class NotificationComponent implements OnInit {
     thematique: new FormControl(''),
     start: new FormControl(''),
     end: new FormControl(''),
-    tags: new FormArray([]),
+    confirmation: new FormControl(''),
+    autorite: new FormControl(''),
+    lieu: new FormControl(''),
     tagEvents: new FormArray([]),
   })
 
@@ -62,37 +64,11 @@ export class NotificationComponent implements OnInit {
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
-      center: 'dayGridMonth,timeGridWeek,listWeek',
+//center: 'dayGridMonth,timeGridWeek,listWeek',
     },
     plugins: [listPlugin, interactionPlugin, dayGridPlugin],
     initialView: 'dayGridMonth',
-    events: [
-      {
-        color:'#378001',
-        groupId: '1',
-      },
-      {
-        color:'red',
-        groupId: '2',
-      },
-      {
-        color:'yellow',
-        groupId: '3',
-      },
-      {
-        color:'green',
-        groupId: '4',
-      },
-      {
-        color:'blue',
-        groupId: '5',
-      },
-      {
-        color:'black',
-        groupId: '6',
-      }
-    ],
-
+    events: [],
     locale: 'fr',
     selectable: true,
     eventClick: (event) => {
@@ -122,25 +98,33 @@ export class NotificationComponent implements OnInit {
   constructor(private event: EvenementService, private datePipe: DatePipe,
     private modalService: BsModalService,
     private fb: FormBuilder,
-    private evenement: EvenementService) { }
+    private evenement: EvenementService,
+    private struct: StructureService) { }
 
   ngOnInit(): void {
     this.getEvents();
     this.getMyEvents();
+    this.getStructure();
+    this.isAllowedToModify();
 
     this.addEventForm = this.fb.group({
       thematique: ['', Validators.required],
       start: ['', Validators.required],
       end: ['', Validators.required],
-      fonction_autorite: [''],
+      confirmation: ['', Validators.required],
+      autorite: [''],
+      lieu: [''],
       tagEvents: this.fb.array([])
     });
 
     this.editEventForm = this.fb.group({
       thematique: (''),
       start: (''),
-      end: ('')
+      end: (''),
+      lieu: (''),
+      autorite: ('')
     });
+
 
 
   }
@@ -176,7 +160,8 @@ export class NotificationComponent implements OnInit {
       }
     )
   }
-public structure:any
+  public structure: any
+  public structureColor: any
   public getEvents() {
     this.events = []
     this.event.getEvenenement().subscribe(
@@ -186,27 +171,35 @@ public structure:any
           element.end = this.transformDate(element.end)
           element.title = element.thematique
           element.color = element.structure?.color
-          //console.log(element.structure);
-          // //element.draggable=true
           this.structure = element.structure
+          this.structureColor = element.color
+          element.autorite = element.autorite
+          if (element.autorite) {
+            element.backgroundColor = "black"
+            element.textColor ="orange"
+          }
+          console.log(element.color);
           this.events.push(element);
         })
-        
-       // console.log(this.events);
+
+        // console.log(this.events);
         console.log(this.structure);
-        this.events.forEach((event:any) =>{
-          // if (this.structure.libelle === 'PP') {
-          //   console.log(event);
-            
-          // event.color='#27ae60'
-          // }else{
-          //   event.color = 'red'
-          // }
+        this.events.forEach((event: any) => {
+
         })
-        
+
         this.calendarOptions.events = this.events;
       })
     console.log(this.events);
+  }
+
+  public Mystruct :any
+
+  public isAllowedToModify(){
+   this.Mystruct = localStorage.getItem('structure')
+   console.log(this.Mystruct);
+   
+
   }
 
   public updateEvenement() {
@@ -216,10 +209,10 @@ public structure:any
       res => {
         console.log(res);
         this.confirm();
-        this.getEvents();
+        this.getEvents()
+        this.displayModal = false;
       });
   }
-
 
 
   public getMyEvents() {
@@ -236,8 +229,6 @@ public structure:any
     this.modalRef?.hide();
   }
 
-
-
   openModal(template: TemplateRef<any>, id: any) {
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
     this.idEvent = id;
@@ -252,7 +243,7 @@ public structure:any
 
     this.modalRef = this.modalService.show(editEventcontent, { class: 'modal-lg' });
     this.idEvent = id;
-    this.getSelectedEvent(this.idEvent);
+    this.getSelectedEvent(this.idEvent);    
     this.displayEvent(this.eventItem);
   }
 
@@ -264,7 +255,8 @@ public structure:any
         thematique: [],
         start: [],
         end: [],
-        fonction_autorite: [],
+        autorite: [],
+        lieu: [],
         // tags:this.fb.array([]),
         tagEvents: this.fb.array([])
       }));
@@ -286,7 +278,9 @@ public structure:any
       "thematique": this.addEventForm.value.thematique,
       "start": this.addEventForm.value.start,
       "end": this.addEventForm.value.end,
-      "fonction_autorite": this.addEventForm.value.fonction_autorite
+      "confirmation": this.addEventForm.value.confirmation,
+      "autorite": this.addEventForm.value.autorite,
+      "lieu": this.addEventForm.value.lieu
     }
 
 
@@ -308,6 +302,11 @@ public structure:any
     this.addEventForm.reset()
     this.confirm();
     this.getEvents();
+    this.evenement.sendMAilEvent().subscribe(
+      data =>{
+        
+      }
+    )
   }
 
   confirm(): void {
@@ -327,27 +326,77 @@ public structure:any
       })
   }
 
-    /**
-  * récupérer l'événement
-  */
-     public getSelectedEvent(id: any): void {
+  /**
+* récupérer l'événement
+*/
+  public getSelectedEvent(id: any): void {
 
-      this.evenement.getEventById(id).subscribe(
-        (events) => {
-          console.log(events);
-          this.eventItem = events
-          this.displayEvent(events);
-        }
-      )
-    }
+    this.evenement.getEventById(id).subscribe(
+      (events) => {
+        console.log(events);
+        this.eventItem = events
+        this.displayEvent(events);
+      }
+    )
+  }
 
   public displayEvent(event: any[]): void {
     this.eventItem = event;
+    console.warn(event);
+        
     this.editEventForm.patchValue({
-      thematique: this.eventItem.thematique,
-      start: this.eventItem.start,
-      end: this.eventItem.end
-   })
+      thematique: this.eventItem?.thematique,
+      start: this.transformDate(this.eventItem?.start) ,
+      end: this.transformDate(this.eventItem?.end) ,
+      lieu: this.eventItem?.lieu,
+      autorite: this.eventItem?.autorite
+    })
+  }
+
+  public myStructures: any;
+  public getStructure() {
+    this.struct.getStructure().subscribe(
+      data => {
+        console.log(data);
+        this.myStructures = data;
+      }
+    )
+  }
+
+  public lesEvents: any
+
+  myEventsByStructure(id: any) {
+    this.evenement.getEvenementByStructure(id).subscribe(
+      data => {
+        this.lesEvents = data.evenement
+        console.log(data);
+        this.lesEvents.forEach((element: any) => {
+          element.start = this.transformDate(element.start)
+          element.end = this.transformDate(element.end)
+          element.title = element.thematique
+          element.color = data.color
+          this.structure = element.structure
+          this.events.push(element);
+        });
+        console.warn(data.evenement);
+        this.events = data.evenement;
+        this.calendarOptions.events = this.events;
+      }
+    )
+  }
+
+  public getSelectedStructure(id: any): void {
+
+    this.struct.getStructureById(id).subscribe(
+      (event) => {
+        console.log(event.id);
+        this.myEventsByStructure(id);
+        // if (!event.id) {
+        //   this.structures= event
+
+        // }    
+      }
+    )
   }
 
 

@@ -27,10 +27,12 @@ export class EvenementService {
   }
 
   getEvenementBySemaine(id:number){
-    return this.http.get<any>(this.getUrl + '/agenda/evenement') 
-
+    return this.http.get<any>(this.getUrl + '/agenda/evenement/'+`${id}`) 
   }
 
+  getEvenementByMois(mois:number){
+    return this.http.get<any>(this.getUrl + '/mois/evenement/'+`${mois}`) 
+  }
 
   getEventById(id:number):Observable<any>{
     return this.http.get<any>(this.getUrl + '/evenement/'+`${id}`) 
@@ -40,18 +42,33 @@ export class EvenementService {
     return this.http.get<any>(this.getUrl + '/structure/'+`${id}`) 
   }
 
+  getEvenementByStructureMois(id:number, mois:number): Observable<any>{
+    return this.http.get<any>(this.getUrl + '/structure-event-mois/'+`${id}`+ '/'+`${mois}`) 
+  }
+
+  getEvenementByStructureSemaine(id:number, semaine:number): Observable<any>{
+    return this.http.get<any>(this.getUrl + '/structure-event/'+`${id}`+ '/'+`${semaine}`) 
+  }
+
   postEvenement(event:any){
     return this.http.post<any>(this.getUrl +'/evenement', event)
   }
 
   DeleteEvenement(id:number):Observable<{}>{
-    return this.http.delete<any>(this.getUrl + '/evenement/'+`${id}`)
+    return this.http.delete<any>(this.getUrl +'/evenement/'+`${id}`)
   }
 
   updateEvenenement(id:number, evenement:any):Observable<any>{
     return this.http.put<any>(`${this.getUrl}/evenement/${id}`,evenement)
   }
 
+  extractEvenement(){
+   return  this.http.get<any>(this.getUrl +'/evenement/extraction')
+  }
+
+  sendMAilEvent(){
+    return this.http.get<any>(this.getUrl + '/evenement-mail')
+  }
 
 
 }

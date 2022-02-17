@@ -61,7 +61,7 @@ mat-icon:hover{
   color: #f7a25d;
 }
 .center-nav{
- margin: 0 15%;
+ margin: 0 25%;
 padding: 0;
 }
 .logout{
@@ -70,4 +70,9 @@ padding: 0;
 .active-link{
   background-color: #F16E00;
 
+}
+
+.currentUser{
+  color: #F16E00;
+  text-decoration: none;
 }

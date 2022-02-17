@@ -1,3 +1,56 @@
+   <!-- Edit modal Evénement -->
+   <ng-template #editEventcontent>
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modifier événement</h5>
+      <button type="button" class="close"  (click)="decline()" >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+     <h4>
+      <strong>Utilisateur: </strong>  {{currentUser}}
+     </h4>
+     <h4>
+       <strong> Structure: </strong>  {{currentStructure}}
+     </h4>
+     <h4>
+       <strong> Nom d'utilisateur: </strong>  {{username}}
+     </h4>
+     <h4>
+       <strong> Email:</strong>  {{email}}
+     </h4>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="decline()">OK</button>
+      <!-- <button type="submit" class="btn btn-success" data-toggle="modal"  data-target="#editPasswordModal" (click)="openEditEventModal(editEventcontent)">Modifier mot de passe</button> -->
+    </div>
+</ng-template>
+
+<!-- Edit password Evénement -->
+<ng-template #editPasswordcontent>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Modifier mot de passe</h5>
+    <button type="button" class="close"  (click)="decline()" >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+   <form action="">
+     <div class="form-group">
+       <label for="">Mot de passe</label>
+       <input type="password">
+     </div>
+     <div class="form-group">
+      <label for="">Confirmer mot de passe</label>
+      <input type="password">
+    </div>
+   </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="decline()">Annuler</button>
+    <button type="submit" class="btn btn-success">Modifier mot de passe</button>
+  </div>
+</ng-template>
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -6,7 +59,8 @@
     </a>
     <div class="" style="color: white;">
       <h2>
-        Bonjour {{currentUser}}
+        Bonjour <a href="" class="currentUser" role="button" data-toggle="modal"  data-target="#editModal" (click)="openEditEventModal(editEventcontent)">
+          {{currentUser}}</a> 
       </h2>
       </div>
   
@@ -25,8 +79,8 @@
          </div>
      </a>
       </li>
-      <li class="nav-item " *ngIf="is_admin">
-     <a class="nav-link" href="#" routerLink="dashboard" routerLinkActive="active-link">     <!-- *ngIf="auth.isAdmin()" -->
+      <!-- <li class="nav-item " *ngIf="is_admin">
+     <a class="nav-link" href="#" routerLink="dashboard" routerLinkActive="active-link">     
           <div class="icon">
             <mat-icon aria-hidden="false" aria-label="Example home icon">
               dashboard
@@ -36,7 +90,7 @@
          Tableau de bord 
          </div>
      </a>
-      </li>
+      </li> -->
         <li class="nav-item dropdown"  routerLinkActive="active-link">
           <a class="nav-link dropdown-toggle" href="#" id="suivi" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="icon">

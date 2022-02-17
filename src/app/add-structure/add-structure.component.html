@@ -1,0 +1,16 @@
+<p>add-structure works!</p>
+<div class="container-fluid" id="multiCollapseExample2">
+             <h4 class="mt-4" style="color:#F16E00">Ajout d'une structure</h4>
+    <hr>
+    <form  [formGroup]="addStruct" (ngSubmit)="addStructure()">
+        <div class="form-group" >
+            <label>Libellé de la structure</label>
+            <input type="text" class="form-control" formControlName="libelle"  placeholder="Saisissez un nom" value="" [ngClass]="{ 'is-invalid': submitted && f.libelle.errors }" >
+            <div *ngIf="submitted && f.libelle.errors" class="invalid-feedback">
+              <div *ngIf="f.libelle.errors.required">le libellé est requis</div>
+          </div>
+          </div>
+          <button type="submit" class="btn btn-primary" >Enregistrer</button> 
+          <button type="reset" class="btn btn-light">Annuler</button>
+    </form>
+</div>

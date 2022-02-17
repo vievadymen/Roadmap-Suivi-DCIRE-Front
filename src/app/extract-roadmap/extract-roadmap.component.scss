@@ -37,3 +37,33 @@
     background-color: #50BE87;
   
   }
+  .legend {
+    display: block;
+    float: left;
+    height: 16px;
+    width: 30px;
+    margin-right: 5px;
+    margin-left: 0;
+    border: 1px solid #999;
+    }
+
+  .myitems{
+    list-style: none;
+  }
+  .myitem{
+    cursor: pointer;
+  }
+
+  .next {
+    background-color: #50BE87;
+    color: white;
+  }
+  .round {
+    border-radius: 50%;
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+ 
+  

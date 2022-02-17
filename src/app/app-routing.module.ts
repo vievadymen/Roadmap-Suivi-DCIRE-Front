@@ -24,6 +24,9 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { BrowserModule } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
+import { AddStructureComponent } from './add-structure/add-structure.component';
+import { ListStructuresComponent } from './list-structures/list-structures.component';
+
 
 
 registerLocaleData(localeFr);
@@ -39,11 +42,15 @@ const routes: Routes = [
         path: 'accueil', component: HomeUserComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]},
       },
       {path: 'dashboard', component: DashboardComponent, canActivate: [RoleGuard] },
+      {path: 'road', component: RoadmapComponent, canActivate: [RoleGuard] },
       {
         path: 'settings', component: SettingsComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]},
         children: [
           {path: 'list-users', component:ListUsersComponent,} ,
           {path: 'add-profil', component:AddProfilComponent,} ,
+          {path: 'add-structure', component:AddStructureComponent,} ,
+          {path: 'list-structure', component:ListStructuresComponent,} ,
+
         ]
       },
       {
@@ -78,7 +85,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 
 @NgModule({
   imports: [RouterModule.forRoot(routes),
-            BrowserModule,
+          BrowserModule,
             FullCalendarModule // register FullCalendar with you app
   ],
   exports: [RouterModule],

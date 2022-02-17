@@ -1,4 +1,4 @@
-<div class="container" id="multiCollapseExample2">
+<div class="container-fluid" id="multiCollapseExample2">
             
            
     <h4 class="mt-4" style="color:#F16E00">Ajout d'un utilisateur</h4>
@@ -33,11 +33,31 @@
           <div *ngIf="f.email.errors.email">Veuillez renseigner une adresse email valide</div>
       </div>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label>Département</label>
         <input type="text" class="form-control" formControlName="departement"  placeholder="Saisissez une structure" value=""  [ngClass]="{ 'is-invalid': submitted && f.departement.errors }">
         <div *ngIf="submitted && f.departement.errors" class="invalid-feedback">
           <div *ngIf="f.departement.errors.required">le nom  de la structure est requis</div>
+      </div>
+      </div> -->
+      <div class="form-group col-md-4">
+        <label for="structure">Structure</label>
+        <select id="structure" class="form-control" formControlName="structure" [ngClass]="{ 'is-invalid': submitted && f.structure.errors }">
+          <option selected>Choisir</option>
+          <option  *ngFor="let structure of structures" value="{{structure?.id}}">{{structure.libelle}}</option>
+        </select>
+        <div *ngIf="submitted && f.structure.errors" class="invalid-feedback">
+          <div *ngIf="f.structure.errors.required">la structure est requise</div>
+      </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="profil">Profil</label>
+        <select id="profil" class="form-control" formControlName="profil" [ngClass]="{ 'is-invalid': submitted && f.profil.errors }">
+          <option selected>Choisir</option>
+          <option  *ngFor="let profil of profils" value="{{profil?.id}}">{{profil.libelle}}</option>
+        </select>
+        <div *ngIf="submitted && f.profil.errors" class="invalid-feedback">
+          <div *ngIf="f.profil.errors.required">la profil est requise</div>
       </div>
       </div>
        <button type="submit" class="btn btn-primary" >Enregistrer</button> 

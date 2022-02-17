@@ -1,0 +1,68 @@
+
+      <!--Modal Suppression user-->
+
+      <ng-template #template>
+        <button type="button" class="close"  (click)="decline()" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-body text-center">
+          <p>Voulez-vous supprimer cette strucuture?</p>
+          <button type="button" class="btn btn-primary" (click)="decline()" >Non</button>
+          <button type="button" class="btn btn-default" (click)="deleteStructure()" >Oui</button>
+        </div>
+      </ng-template>
+      
+      <!--Modal Suppression user-->
+
+          <!-- Edit modal Activité -->
+          <ng-template #editcontent>
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modifier activité</h5>
+              <button type="button" class="close"  (click)="decline()" >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form  [formGroup]="editForm">
+                <div class="form-group">
+                  <label for="libelle" class="col-form-label">Libellé:</label>
+                  <input type="text" class="form-control" id="libelle" formControlName="libelle">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="decline()">Annuler</button>
+              <button type="submit" class="btn btn-success"(click)="updateStructure()">Enregistrer</button>
+            </div>
+      </ng-template>
+    
+    <!-- Edit modal Activité -->
+
+<div class="" id="listStructure">
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">Libellé</th>
+          <th scope="col">Couleur</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let structure of structures">
+            <td>{{structure?.libelle}}</td>
+            <td> <span [style.background-color]="structure?.color" class="legend"></span> </td>
+          <td>
+            <a  class="text-warning mr-3"  title="Modifier structure"  role="button" data-toggle="modal"  data-target="#editModal" (click)="openEditModal(editcontent,structure.id)">
+                <i class="fas fa-pencil-alt"></i>
+            </a>
+            <!-- <a data-mdb-toggle="tooltip" title="acchiver structure"  (click)="openModal(template,structure.id)"><i class="fas fa-trash-alt fa-lg text-danger"></i></a> -->
+              
+       
+          <!-- <a class="form-check form-switch">
+            <input #flexSwitchCheckDefault class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" [checked]="checked" (change)="BlockUser(flexSwitchCheckDefault.checked)"  />
+          </a> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

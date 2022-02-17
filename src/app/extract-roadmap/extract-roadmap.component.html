@@ -1,10 +1,14 @@
 <div class="sidebar">
-    <ul>
-        <li>
-            <a class="font-weight-bold" routerLink="" routerLinkActive="active-link">GLOBALE</a>
+    <ul class="myitems">
+        <li class="myitem">
+            <a class="font-weight-bold active" (click)="showEvent()" routerLinkActive="active-link">GLOBALE</a>
         </li>
-        <li *ngFor="let structure of structures">
-            <a class="font-weight-bold" (click)="getSelectedStructure(structure.id)" routerLinkActive="active-link">{{structure.libelle}}</a>
+        <li *ngFor="let structure of structures" class="myitem"> 
+            <a class="font-weight-bold nav-link-faded" (click)="getSelectedStructure(structure.id)" routerLinkActive="active-link" >
+                <span [style.background-color]="structure?.color" class="legend"></span>
+                {{structure.libelle}}
+
+            </a>
         </li>
     </ul>
   </div>
@@ -13,15 +17,20 @@
 
 <div class="container mr-1">
 
-    <div class="row bg-light text-center">
-        <h1 style="color:darkorange;"> <b> EXTRACTION ROADMAP DCIRE </b> </h1>
+    <div class="row bg-light text-center" >
+        <h1 style="color:darkorange;"> <b> EXTRACTION ROADMAP DCIRE <span>{{selectedStructure}} </span> </b> </h1>
     </div>
   
     <div class="row">
         <div class="col">
-            <button class="btn extract-btn mt-2" (click)="exportexcel()">Extraire</button>
+            <!-- <button (click)="exportToExcel()">Export The Report</button> -->
+            <button class="btn extract-btn mt-2" (click)="exportToExcel()">Extraire</button>
         </div>
-        <div class="col">
+        <!-- <div class="col">
+            <a class="previous round" (click)="previous(weekNumber)">&#8249;</a>
+            <a class="next round" (click)="next(weekNumber)">&#8250;</a>
+        </div> -->
+        <!-- <div class="col">
             <button class="btn btn-success float-right mt-2">
                 Hebdo
             </button>
@@ -34,7 +43,7 @@
             <button class="btn btn-success float-right mt-2">
                 Semestriel
             </button>
-        </div>
+        </div> -->
       
     </div>
     <table class="table table-hover table-bordered bg-light mt-3" id="roadmap-table">
@@ -56,29 +65,35 @@
                     Structure
                 </th>
                 <th>
-                    Corfirmé Oui/Non
+                    Lieu
+                </th>
+                <th>
+                    Corfirmation
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor= "let event of events">
                 <td>
-                    {{event.thematique}}
+                    {{event?.thematique}}
                 </td>
                 <td>
-                    {{event.start | date }}
+                    {{event?.start | date }}
                 </td>
                 <td>
-                    {{event.end | date}}
+                    {{event?.end | date}}
                 </td>
                 <td>
-                    {{event.autorite}}
+                    {{event?.autorite}}
                 </td>
                 <td>
-                    {{event.strcture?.libelle}}
+                    {{event?.structure?.libelle}}
                 </td>
                 <td>
-                    Oui
+                    {{event?.lieu}}
+                </td>
+                <td>
+                    {{event?.confirmation}}
                 </td>
             </tr>
         </tbody>

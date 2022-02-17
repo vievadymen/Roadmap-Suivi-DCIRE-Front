@@ -1,19 +1,29 @@
 <div class="sidebar">
-    <ul>
-        <li>
-            <a class="font-weight-bold" (click)="showEvent()" routerLinkActive="active-link">GLOBALE</a>
+    <ul class="myitems">
+        <li class="myitem">
+            <a class="font-weight-bold" (click)="getAllActivite()" routerLinkActive="active-link">GLOBALE</a>
         </li>
-        <li *ngFor="let structure of structures">
-            <a class="font-weight-bold" (click)="getSelectedStructure(structure.id)" routerLinkActive="active-link">{{structure.libelle}}</a>
+        <li *ngFor="let structure of structures" class="myitem">
+            <a class="font-weight-bold" (click)="getSelectedStructure(structure.id)" routerLinkActive="active-link">
+                <span [style.background-color]="structure?.color" class="legend"></span>
+                {{structure.libelle}}</a>
         </li>
     </ul>
   </div>
   
 
 <div class="container mr-1">
+    <div class="row bg-light text-center" >
+        <h1 style="color:darkorange;"> <b> EXTRACTION SUIVI D'ACTIVITES <span>{{selectedStructure}} </span> </b> </h1>
+        <h3>Semaine {{weekNumber}}</h3>
+    </div>
     <div class="row">
         <div class="col">
             <button class="btn extract-btn mt-2" (click)="exportexcel()">Extraire</button>
+        </div>
+        <div class="col">
+            <a class="previous round" (click)="previous(weekNumber)">&#8249;</a>
+            <a class="next round" (click)="next(weekNumber)">&#8250;</a>
         </div>
     </div>
     <table class="table table-hover table-bordered bg-light mt-3" id="activite-table">
@@ -27,37 +37,36 @@
         <tbody class="text-center">
             <div class="row text-center" *ngIf="!activites || activites?.length === 0">
                 <h2>
-                    ACTIVITES PHARES DE LA SEMAINE
+                    ACTIVITES PHARES DE LA SEMAINE {{weekNumber}}
                 </h2>
                 <h3 style="color:#F16E00; ">Aucune activité à extraire</h3>
             </div>
             <tr  *ngFor= "let activite of activites ">
                 <td>
-                    {{activite.libelle}}
+                    {{activite?.libelle}}
                 </td>
                 <td>
-                    {{activite.date |date }}
+                    {{activite?.date |date }}
                 </td>
                 <td >
-                    {{activite.structure['libelle']}}
+                    {{activite?.structure?.libelle}}
                 </td>
             </tr>
-            <tr> </tr>
-            
+            <tr> 
                 <td>
                     <tr>
                         <h2>
                             DIFFICULTES ET POINTS DE COORDINATION
                         </h2>
                     </tr>
-                    <tr *ngFor= "let difficulte of difficultes">
+                    <tr *ngFor= "let difficulte of difficultes" >
                         <td>
-                            {{difficulte.description}}
+                            {{difficulte?.description}}
                         </td>
                     </tr>
                 </td>
 
-                <td>
+                <td colspan="2">
                     <tr>
                         <h2>
                             AGENDA DES ÉVÉNEMENTS
@@ -65,13 +74,16 @@
                     </tr>
                     <tr *ngFor= "let event of evenements">
                         <td>
-                            {{event.thematique}}
+                            {{event?.thematique}}
                         </td>
                         <td>
-                            {{event.start |date}}
+                            {{event?.start |date}}
                         </td>
                     </tr>
                 </td>
+            </tr>
+            
+
 
             <tr></tr>
 

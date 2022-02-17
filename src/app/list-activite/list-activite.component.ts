@@ -3,12 +3,13 @@ import { ActiviteService } from '../services/activite.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import { FormControl } from "@angular/forms";
-import { Time, getLocaleDateTimeFormat } from '@angular/common';
+import { Time, getLocaleDateTimeFormat, DatePipe } from '@angular/common';
 import { DifficulteService } from '../services/difficulte.service';
 import { EvenementService } from '../services/evenement.service';
 import * as moment from 'moment';
 import 'moment/locale/fr';
 import { th } from 'date-fns/locale';
+import { StructureService } from '../services/structure.service';
 
 
 
@@ -80,7 +81,7 @@ export class ListActiviteComponent implements OnInit {
 
   constructor(private _activite: ActiviteService, private modalService: BsModalService,
     private difficulte: DifficulteService, private fb: FormBuilder,
-    private evenement: EvenementService,) { }
+    private evenement: EvenementService, private struct: StructureService,private datePipe: DatePipe) { }
 
 
   ngOnInit(): void {
@@ -118,6 +119,8 @@ export class ListActiviteComponent implements OnInit {
     this.getAllActivite();
     this.showDifficulte();
     this.showEvent();
+    this.getStructure();
+
   }
 
   openModal(template: TemplateRef<any>, id: any) {
@@ -175,11 +178,10 @@ export class ListActiviteComponent implements OnInit {
       this.activites = data.reverse()
       this.totalLength = data.length
     });
-
   }
 
   public showDifficulte() {
-    this.difficulte.getDifficulte().subscribe(
+    this.difficulte.getDifficulteBySemaine(this.weekNumber).subscribe(
       data => {
         console.warn(data);
         this.diff = data.reverse();
@@ -207,12 +209,10 @@ export class ListActiviteComponent implements OnInit {
     this._activite.getActiviteByID(id).subscribe(
       (activites) => {
         console.log(activites);
-
         this.activiteItem = activites
         this.displayActivite(activites);
 
-      }
-    )
+      })
   }
 
   public updateActivite() {
@@ -233,7 +233,6 @@ export class ListActiviteComponent implements OnInit {
       (response) => {
         this.confirm();
         this.getAllActivite();
-        //alert ('supprimmé avec succes') 
       },
       (error) => {
         console.log(error);
@@ -244,13 +243,12 @@ export class ListActiviteComponent implements OnInit {
    * 
    * préremplir formulaire de modification difficulté
    */
-
   public displayDifficulte(difficulte: Difficulte[]): void {
 
     this.diff = difficulte;
     console.log(this.diff);
     this.editDiffForm.patchValue({
-      description: this.diff.description
+      description: this.diff?.description
     })
   }
 
@@ -311,8 +309,11 @@ export class ListActiviteComponent implements OnInit {
         console.log(events);
         this.eventItem = events
         this.displayEvent(events);
-      }
-    )
+      })
+  }
+
+  transformDate(date: any) {
+    return this.datePipe.transform(date, 'yyyy-MM-dd');
   }
 
   /**
@@ -324,8 +325,8 @@ export class ListActiviteComponent implements OnInit {
 
     this.events = event;
     this.editEventForm.patchValue({
-      thematique: this.events.thematique,
-      start: this.events.start
+      thematique: this.events?.thematique,
+      start: this.transformDate(this.events?.start) 
     })
   }
 
@@ -339,7 +340,6 @@ export class ListActiviteComponent implements OnInit {
         this.confirm();
         this.refreshPage();
       });
-    //     
   }
 
   public updateEvenement() {
@@ -349,7 +349,8 @@ export class ListActiviteComponent implements OnInit {
       res => {
         console.log(res);
         this.confirm();
-        this.refreshPage();
+        this.editEventForm.reset();
+        this.showEvent();
       });
   }
 
@@ -359,10 +360,10 @@ export class ListActiviteComponent implements OnInit {
         this.confirm();
         this.refreshPage();
       },
-      (error) => {
-        console.log(error);
+      // (error) => {
+      //   console.log(error);
 
-      }
+      // }
     )
   }
 
@@ -382,5 +383,68 @@ export class ListActiviteComponent implements OnInit {
   }
 
 
+  public myStructures: any;
+  public getStructure() {
+    this.struct.getStructure().subscribe(
+      data => {
+        console.log(data);
+        this.myStructures = data;
+      }
+    )
+  }
+
+  public selectecStructure =false
+
+  public getSelectedStructure(id: any): void {
+    this.selectecStructure =true
+
+    this.struct.getStructureById(id).subscribe(
+      (struct) => {
+        console.log(struct.id);
+        this._activite.getActiviteByStructureSemaine(struct.id, this.weekNumber).subscribe(
+          data => {
+            this.activites = data.reverse()
+            this.totalLength = data.length
+            console.log(data);
+
+          });
+          this.evenement.getEvenementByStructureSemaine(struct.id, this.weekNumber).subscribe(
+            data=>{
+              this.events = data.reverse()
+              console.log(data);
+              
+            }
+          )
+
+          this.difficulte.getDifficulteByStructureSemaine(struct.id, this.weekNumber).subscribe(
+            data=>{
+              this.diff = data.reverse()
+              console.log(data);
+              
+            }
+          )
+
+      }
+    )
+  }
+
+
+  myActivitesByStructure(id: any) {
+    this._activite.getActiviteByStructure(id).subscribe(
+      data => {
+        this.activites = data
+        this.totalLength = data.length
+        console.log(data);
+
+      });
+  }
+
+  myEventsByStructure(id: any) {
+    this.evenement.getEvenementByStructure(id).subscribe(
+      data => {
+        this.events = data.evenement
+        console.log(data.evenement);
+      });
+  }
 
 }

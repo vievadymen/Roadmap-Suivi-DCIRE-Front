@@ -43,10 +43,17 @@ updateActivite(id:number, activite:any):Observable<any>{
     return this.http.get<any>(this.getUrl + '/structure-activite/'+`${id}`) 
   }
 
+  getActiviteByStructureSemaine(id:number, semaine:number): Observable<any>{
+    return this.http.get<any>(this.getUrl + '/structure-activite/'+`${id}`+'/'+`${semaine}`) 
+  }
+
   getActiviteBySemaine(id:number): Observable<any>{
     return this.http.get<any>(this.getUrl + '/activite/semaine/'+`${id}`)
   }
 
+  sendMAilActivite(){
+    return this.http.get<any>(this.getUrl + '/activite-mail/')
+  }
 }
 
 

@@ -58,7 +58,7 @@ public endDayWeek:any;
      private evenement:EvenementService,
     private  _activite:ActiviteService,
     private _router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
      ) { }
 
   ngOnInit(): void {
@@ -136,6 +136,12 @@ public endDayWeek:any;
    this.redirection();
    //this.getAllActivite();
    //this.addEvent();
+
+   this._activite.sendMAilActivite().subscribe(
+     data=>{
+       
+     }
+   )
  
 }
 

@@ -126,7 +126,32 @@
   
   <!--Modal Suppression Difficulté-->
 
-<!-- tableau d'activités -->
+  <div class="container-fluid">
+    <div class="row flex-wrap">
+    <div class="col-auto col-md-2 col-xl-1 px-sm-1 px-2 mt-3 h-50  bg-light">
+      <div class="d-flex flex-column align-items-center align-items-sm-start  pt-5 text-dark " style="width: 100%;">
+        <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+          <!-- <span class="fs-5 d-none d-sm-inline">Menu</span> -->
+        </a>
+        <ul class="nav nav-pills  flex-column mb-sm-auto mb-1 align-items-center align-items-sm-start" id="menu" >
+          <li class="nav-item"  *ngFor="let structure of myStructures" style="width:100%">
+            <!-- [style.background-color]="structure?.color"   -->  
+              <a  class="nav-link align-middle px-0" 
+             style="cursor: pointer; width: 100% ;"
+             (click)="getSelectedStructure(structure.id)"  routerLinkActive="active-link" >
+              <span  class="ms-1 d-none d-sm-inline text-dark fs-5">
+                <span [style.background-color]="structure?.color" class="legend"></span>
+                 {{structure?.libelle}}  </span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      </div>
+    </div>
+
+
+   <div class="col py-3">
+    <!-- tableau d'activités -->
   <table class="table table-hover bg-light" id="activite-table">
     <thead>
       <tr>
@@ -143,14 +168,14 @@
           </h2>
           <h3 style="color:#F16E00; ">Aucune activité enregistrée cette semaine</h3>
       </div> 
-      <tr *ngFor= "let activite of activites | paginate: { itemsPerPage: 4, currentPage: p, totalItems: totalLength }" data-toggle="modal"  >
-        <td>{{activite.libelle}}
+      <tr *ngFor= "let activite of activites | paginate: { itemsPerPage: 6, currentPage: p, totalItems: totalLength }" data-toggle="modal"  >
+        <td>{{activite?.libelle}}
         </td>
-        <td class="date" >{{activite.date | date  }}</td>
-        <td class="date" >{{activite.structure['libelle']}}</td>
-
+        <td class="date" >{{activite?.date | date  }}</td>
+        <td class="date" >{{activite?.structure?.libelle}}
+          <!-- <span *ngIf="!activite?.structure?.libelle" [style.color]="activite?.structure?.color">{{structure?.libelle}}</span> -->
+        </td>
         <td> 
-       
           <!-- <a class="text-success"  title="Détails activité"  role="button" data-toggle="modal"  data-target="#detailsModal" (click)="passId(activite.id)"> 
             <i class="fas fa-search-plus"></i>
           </a> -->
@@ -166,7 +191,7 @@
       <tr>
       </tr>
     </tbody>
-    <tfoot class="text-center" *ngIf="activites || activites?.length === 4" >
+    <tfoot class="text-center" *ngIf="activites || activites?.length === 6" >
       <pagination-controls class="activites-pagination" (pageChange)="p = $event"></pagination-controls>
     </tfoot>
 
@@ -178,18 +203,18 @@
   <div class="row">
     <div class="col">
       <div class="card text-dark bg-light mb-3" >
-        <div class="card-header"> <h2> DIFFICULTÉS,POINTS DE VIGILANCE ET DE COORDINATION </h2> </div>
+        <div class="card-header"> <h3> DIFFICULTÉS,POINTS DE VIGILANCE ET DE COORDINATION </h3> </div>
         <div class="card-body text-center" *ngIf="!diff || diff?.length === 0">
           <h3 style="color:#F16E00; ">Aucune difficulte enregistrée cette semaine</h3>
         </div>
         <div class="card-body" >
           <ul class="list-group" *ngFor= "let difficulte of diff">
-            <li class="list-group-item">{{difficulte.description}}
+            <li class="list-group-item">{{difficulte?.description}}
                 <div class=" float-right">
-                  <a  class="text-warning"  title="Modifier activité"  role="button" data-toggle="modal"  data-target="#editDiffModal" (click)="openEditDiffModal(editDiffcontent,difficulte.id)"  > <!-- data-toggle="modal"  data-target="#editModal"-->
+                  <a  class="text-warning"  title="Modifier difficulté"  role="button" data-toggle="modal"  data-target="#editDiffModal" (click)="openEditDiffModal(editDiffcontent,difficulte.id)"  > <!-- data-toggle="modal"  data-target="#editModal"-->
                     <i class="fas fa-pencil-alt ml-3"></i>
                   </a>
-                  <a  role="button"  class="text-danger"   title="Supprimer activité"  (click)="openDiffModal(templateDiff,difficulte.id)" > <!--data-toggle="modal"  data-target="#deleteModal" role="button" (click)="passId(activite.id)"-->
+                  <a  role="button"  class="text-danger"   title="Supprimer difficulté"  (click)="openDiffModal(templateDiff,difficulte.id)" > <!--data-toggle="modal"  data-target="#deleteModal" role="button" (click)="passId(activite.id)"-->
                     <i class="fas fa-trash-alt  ml-3"></i>
                   </a>
                 </div>
@@ -200,18 +225,18 @@
     </div>
     <div class="col">
       <div class="card text-dark bg-light mb-3">
-        <div class="card-header"> <h2> AGENDA DES EVENEMENTS </h2> </div>
+        <div class="card-header"> <h3> AGENDA DES EVENEMENTS </h3> </div>
         <div class="card-body text-center" *ngIf="!events || events?.length === 0">
           <h3 style="color:#F16E00; ">Aucun événement disponible</h3>
         </div>
         <div class="card-body" >
           <ul class="list-group" *ngFor="let event of events">
-            <li class="list-group-item">{{event.thematique}} --- {{event.start | date}}
+            <li class="list-group-item">{{event?.thematique}} --- {{event?.start | date}}
               <div class=" float-right">
-                <a  class="text-warning"  title="Modifier activité"  role="button" data-toggle="modal"  data-target="#editModal" (click)="openEditEventModal(editEventcontent,event.id)"> <!-- data-toggle="modal"  data-target="#editModal"-->
+                <a  class="text-warning"  title="Modifier événement"  role="button" data-toggle="modal"  data-target="#editModal" (click)="openEditEventModal(editEventcontent,event.id)"> 
                   <i class="fas fa-pencil-alt ml-3"></i>
                 </a>
-                <a  role="button"  class="text-danger"   title="Supprimer activité" (click)="openDeleteEventModal(templateDeleteEvent,event.id)" > <!--data-toggle="modal"  data-target="#deleteModal" role="button" (click)="passId(activite.id)"-->
+                <a  role="button"  class="text-danger"   title="Supprimer évémnement" (click)="openDeleteEventModal(templateDeleteEvent, event.id)" > 
                   <i class="fas fa-trash-alt  ml-3"></i>
                 </a>
               </div>
@@ -222,4 +247,9 @@
     </div>
   </div>
   <!-- Difficultés et agenda des événements -->
+
+  </div>
+</div>
+
+
 
